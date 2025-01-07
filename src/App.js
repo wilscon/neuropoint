@@ -4,7 +4,7 @@ import ServicesSection from './components/ServicesSection';
 import Navbar from './components/Navbar';
 import ProfileSection from './components/ProfileSection'; // Use the new component
 import ContactSection from './components/ContactSection';
-import TestimonialsSection from './components/TestimonialsSection';
+import ReviewSection from './components/ReviewSection';
 
 
 
@@ -17,7 +17,7 @@ function App() {
        <AboutSection/> 
        <ServicesSection/>
        <ContactSection/>
-       <TestimonialsSection/>
+       <ReviewSection/>
         
       </div>
     </div>
