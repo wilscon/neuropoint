@@ -1,4 +1,5 @@
 import React from 'react';
+import StarRating from './StarRating';
 
 const Review = ({ user, rating, comment }) => {
   return (
@@ -9,7 +10,7 @@ const Review = ({ user, rating, comment }) => {
         </div>
         <div className="ml-3">
           <h3 className="text-lg font-semibold">{user}</h3>
-          <p className="text-sm text-gray-500">{`${rating} Stars`}</p>
+          <StarRating rating={rating} readOnly />
         </div>
       </div>
       <p className="text-gray-700">{comment}</p>
