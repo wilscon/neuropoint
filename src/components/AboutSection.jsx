@@ -92,8 +92,10 @@ const AboutSection = () => {
             <li>Postherpetic neuralgia, a complication of shingles</li>
           </ul>
   
+         <h1 className="text-xl font-bold text-gray-800 text-center mt-8">Schedule a free 15 min consultation today!</h1>
+
           {/* Button */}
-          <div className="mt-16 text-center">
+          <div className="mt-8 text-center">
             <Button text="Schedule Appointment" onClick="#contact" />
           </div>
         </div>
