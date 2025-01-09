@@ -16,18 +16,7 @@ const ServicesSection = () => {
 
       {/* Columns Container */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 w-full max-w-6xl">
-        {/* Column 1 */}
-        <div className="bg-white p-6 rounded-lg shadow-lg shadow-gray-300 flex flex-col items-center text-center">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Physical Therapy</h3>
-          <p className="text-gray-600 min-h-[64px]">
-            Comprehensive physical therapy services to help restore function and mobility.
-          </p>
-          <img
-            src={physicalTherapyPic}
-            alt="physicalTherapy"
-            className="w-48 h-48 object-cover rounded-lg shadow-lg mt-4"
-          />
-        </div>
+        
 
         {/* Column 2 */}
         <div className="bg-white p-6 rounded-lg shadow-lg shadow-gray-300 flex flex-col items-center text-center">
@@ -38,6 +27,18 @@ const ServicesSection = () => {
           <img
             src={dryNeedlingPic}
             alt="dryNeedling"
+            className="w-48 h-48 object-cover rounded-lg shadow-lg mt-4"
+          />
+        </div>
+        {/* Column 1 */}
+        <div className="bg-white p-6 rounded-lg shadow-lg shadow-gray-300 flex flex-col items-center text-center">
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">Physical Therapy</h3>
+          <p className="text-gray-600 min-h-[64px]">
+            Comprehensive physical therapy services to help restore function and mobility.
+          </p>
+          <img
+            src={physicalTherapyPic}
+            alt="physicalTherapy"
             className="w-48 h-48 object-cover rounded-lg shadow-lg mt-4"
           />
         </div>
