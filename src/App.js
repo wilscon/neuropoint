@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import ContactSection from './components/ContactSection';
 import ReviewSection from './components/ReviewSection';
 import HomeSection from './components/HomeSection';
+import FooterSection from './components/FooterSection';
 
 
 
@@ -14,7 +15,6 @@ function App() {
     <div>
       <Navbar />
       <HomeSection />
-      <div className="pt-16"> {/* Add padding to prevent content from being hidden behind navbar */}
        <AboutSection/> 
        <TeamSection/>
        
@@ -22,8 +22,9 @@ function App() {
        
        <ReviewSection/>
        <ContactSection/>
+       <FooterSection/>
         
-      </div>
+      
     </div>
   );
 }
