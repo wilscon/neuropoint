@@ -7,11 +7,6 @@ const ReviewSection = () => {
           <h1 className="text-3xl font-bold text-center text-customTeal mb-8"> Reviews </h1>
           <div className="container mx-auto px-8">
               <Review
-                user="Jordan Powers"
-                rating={5}
-                comment="I've been having ongoing headaches for the past several months - and after 2 treatment sessions with Zack, they went from twice weekly to once monthly."
-              />
-              <Review
                 user="Alex Kim"
                 rating={5}
                 comment="A year ago I experienced a skiing incident that led to a scheduled shoulder surgery. 
@@ -26,6 +21,11 @@ const ReviewSection = () => {
                 comment="My husband Josh and I have both been dealing with some ongoing discomfort, as we have not had the time to schedule PT visits due to our busy schedules. 
                 Our initial consult with Zack was seamless and he was able to swing by our house THAT day. What a relief! 
                 He provided us each with an abundance of information and helped alleviate my low back pain immediately which had been ongoing for several months. Now we schedule follow up visits as needed to help us maintain our active lifestyle’s!"
+              />
+              <Review
+                user="Jordan Powers"
+                rating={5}
+                comment="I've been having ongoing headaches for the past several months - and after 2 treatment sessions with Zack, they went from twice weekly to once monthly."
               />
           </div>
         </section>  

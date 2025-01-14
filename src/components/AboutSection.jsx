@@ -62,11 +62,11 @@ const AboutSection = () => {
   
             <ul className="grid grid-cols-1 list-disc list-inside text-lg text-gray-600 mt-4 gap-y-2 max-w-3xl mx-auto">
                 <li>Joint Irritation/Management of Arthritis</li>
-                <li>Headaches (Migraine and Tension Type)</li>
+                <li>Headaches (Migraine / Tension)</li>
                 <li>Muscular Trigger Points</li>
                 <li>Low Back Pain - Disk Issues</li>
                 <li>Tendon related problems (Tendinopathy) </li>
-                <li>Nerve Irritation (Numbness, Tingling, Burning)</li>
+                <li>Nerve Irritation (Numbness / Tingling)</li>
                 <li>Jaw and mouth dysfunction such as temporomandibular join (TMJ) disorders</li>
             </ul>
             <h1 className="text-3xl font-bold text-gray-800 text-center mt-8">
