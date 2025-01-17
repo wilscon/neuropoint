@@ -76,11 +76,11 @@ const AboutSection = () => {
                 Once you’ve successfully scheduled a 60 minute treatment session and received confirmation from Dr. Bowman - he will arrive at your specified location with a treatment table and all the required supplies to evaluate and treat your condition.
             </p>
             <p className="text-lg text-gray-600 text-gray-600 max-w-3xl mx-auto mt-8">
-            During your session, Dr. Bowman will explain the process, identify specific areas for treatment, and ensure your comfort throughout.For your convenience, wear loose, comfortable clothing that allows easy access to the treatment areas. For example, shorts are ideal for treating the legs, while a tank top works well for the shoulders or arms. If you’re unsure, feel free to ask your therapist for guidance beforehand.
+            During your session, Dr. Bowman will explain the process, identify specific areas for treatment, and ensure your comfort throughout. For your convenience, wear loose, comfortable clothing that allows easy access to the treatment areas. For example, shorts are ideal for treating the legs, while a tank top works well for the shoulders or arms. If you’re unsure, feel free to ask your therapist for guidance beforehand.
             </p>
             <h1 className="text-xl font-bold text-gray-800 text-center mt-8">Schedule a free 15 min consultation today!</h1>
             <div className="mt-8 text-center">
-                <Button text="Schedule Appointment" onClick="#contact" />
+                <Button text="Schedule Appointment" location="#contact" />
             </div>
         </div>
       </section>

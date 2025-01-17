@@ -25,7 +25,7 @@ const HomeSection = () => {
         </div>
       </div>
       <div className="mt-6 sm:mt-8">
-        <Button text="Learn More!" onClick="#about" />
+        <Button text="Learn More!" location="#about" />
       </div>
     </div>
   );
