@@ -20,7 +20,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center space-x-2">
-            <h1 className="text-2xl font-bold">NeuroPoint</h1>
+            <h1 className="text-2xl font-bold">NEUROPOINT</h1>
           </div>
           <div className="hidden md:flex space-x-8">
             <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="hover:text-gray-300">Home</a>

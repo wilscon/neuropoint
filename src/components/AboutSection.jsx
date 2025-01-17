@@ -12,7 +12,7 @@ const AboutSection = () => {
                     About
                 </h1>
                 <h1 className="text-3xl font-bold text-gray-800 text-center">
-                    What is NeuroPoint Precision Therapeutics?
+                    What is Neuropoint Precision Therapeutics?
                 </h1>
             </div>
             <p className="mt-8 text-lg text-gray-600 max-w-3xl mx-auto">
