@@ -6,7 +6,7 @@ const HomeSection = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100 px-4 sm:px-6">
       <div className="flex items-center justify-center mb-4 mt-8">
-        <div className="relative w-80 h-80 sm:w-96 sm:h-96 mb-4">
+        <div className="relative w-80 h-80 mb-4">
           <img
             src={LogoNoText}
             alt="Profile"
