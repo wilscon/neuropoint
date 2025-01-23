@@ -8,7 +8,7 @@ const Footer = () => {
         <p>
           Made by{' '}
           <a 
-            href="https://connorwilson.azurewebsites.net" 
+            href="https://connorwilson.azurewebsites.net/?company=neuropoint" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="underline hover:text-gray-300"
