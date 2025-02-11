@@ -53,9 +53,6 @@ const CalendarSection= () => {
 
   return (
     <div className="calendar-container">
-      <h2 className="calendar-title">
-        Calendar for {currentMonth.toLocaleString("default", { month: "long", year: "numeric" })}
-      </h2>
       <Calendar
         value={date}
         onChange={setDate}
@@ -67,7 +64,7 @@ const CalendarSection= () => {
         tileDisabled={isTileDisabled} // Disable unselectable dates except today
       />
       <p className="selected-date-text">
-        You selected:<strong>{new Date(selectedDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</strong>
+      <strong>{new Date(selectedDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</strong>
       </p>
 
       {selectedDate && (
@@ -76,9 +73,11 @@ const CalendarSection= () => {
           {availableTimes[selectedDate.toISOString().split("T")[0]]?.length > 0 ? (
             <ul className="availability-list">
               {availableTimes[selectedDate.toISOString().split("T")[0]].map((time, index) => (
-                <li key={index} className="time-slot">
-                  {time}
-                </li>
+               <li key={index}>
+               <button className="time-slot-button" onClick={() => alert(`You selected ${time}`)}>
+                 {time}
+               </button>
+             </li> 
               ))}
             </ul>
           ) : (
