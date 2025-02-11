@@ -25,3 +25,5 @@ yarn-error.log*
 
 serviceAccountKey.json
 src/lib/firebase.js
+
+.vscode/
