@@ -1,54 +1,49 @@
+'use client';
 import React, { useState } from 'react';
-import { format } from 'date-fns';
+import { getAvailableTimes} from "../lib/reads";
 
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import './CalendarStyles.css'; // Import custom styles
 
-const CalendarSection= () => {
+const CalendarSection = () => {
   
-  const availableTimes = {
-    "2025-02-15": ["10:00 AM", "2:00 PM", "4:00 PM"],
-    "2025-02-16": ["9:00 AM", "12:00 PM"],
-    "2025-02-17": ["11:00 AM", "3:00 PM", "5:30 PM"],
-    "2025-02-22": ["4:00 PM"],
-  };
-
+  const defaultAvailableTimes = [];
+  const availableDates = ["2025-02-15", "2025-02-19"];
   const today = new Date();
   const initialDate = today;
   const initialSelectedDate = today;
 
-  // State to track selected date and current calendar month
   const [selectedDate, setSelectedDate] = useState(initialSelectedDate);
   const [date, setDate] = useState(initialDate);
   const [currentMonth, setCurrentMonth] = useState(initialDate);
+  const [availableTimes, setAvailableTimes] = useState(defaultAvailableTimes);
 
-  const handleDateClick = (clickedDate) => {
+  const handleDateClick = async (clickedDate) => {
     setDate(clickedDate);
     setSelectedDate(clickedDate);
-   
+    const times = await getAvailableTimes(clickedDate);
+    setAvailableTimes(times); 
   };
 
-  // Detect when the month changes
   const handleActiveStartDateChange = ({ activeStartDate }) => {
     setCurrentMonth(activeStartDate);
   };
 
-  // Function to apply custom classes to each day
   const getTileClassName = ({ date }) => {
     const formattedDate = date.toISOString().split("T")[0];
     const formattedSelectedDate = selectedDate.toISOString().split("T")[0];
 
-    if (formattedDate === formattedSelectedDate) return "selected-day"; 
-    if (!availableTimes[formattedDate]) return "unavailable-day"; 
+    if (formattedDate === formattedSelectedDate) return "selected-day";
+    if (!availableDates.includes(formattedDate)) return "unavailable-day"; 
 
-    return "available-day"; // Default styling
+    return "available-day"; 
   };
 
-  // Disable all days except today and available dates
+  
   const isTileDisabled = ({ date }) => {
     const formattedDate = date.toISOString().split("T")[0];
-    return formattedDate !== today && !availableTimes[formattedDate]; 
+    return !availableDates.includes(formattedDate); 
   };
 
   return (
@@ -61,37 +56,31 @@ const CalendarSection= () => {
         onClickDay={handleDateClick}
         onActiveStartDateChange={handleActiveStartDateChange} // Detect month changes
         tileClassName={getTileClassName} // Apply custom styles
-        tileDisabled={isTileDisabled} // Disable unselectable dates except today
+        tileDisabled={isTileDisabled} // Disable unselectable dates
       />
       <p className="selected-date-text">
-      <strong>{new Date(selectedDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</strong>
+        <strong>{new Date(selectedDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</strong>
       </p>
-
-      {selectedDate && (
+      
         <div className="availability-container">
           <h2 className="availability-title">Availability:</h2>
-          {availableTimes[selectedDate.toISOString().split("T")[0]]?.length > 0 ? (
-            <ul className="availability-list">
-              {availableTimes[selectedDate.toISOString().split("T")[0]].map((time, index) => (
-               <li key={index}>
-               <button className="time-slot-button" onClick={() => alert(`You selected ${time}`)}>
-                 {time}
-               </button>
-             </li> 
-              ))}
-            </ul>
-          ) : (
-            <p className="no-availability-text">
-              {selectedDate === today
-                ? "No available times today."
-                : "No available times for this date."}
-            </p>
-          )}
+          <ul className="availability-list">
+            {availableTimes.length > 0 ? (
+              availableTimes.map((time, index) => (
+                <li key={index}>
+                  <button className="time-slot-button" onClick={() => alert(`You selected ${time}`)}>
+                    {time}
+                  </button>
+                </li>
+              ))
+            ) : (
+              <p className="no-availability-text">No available times for this date.</p>
+            )}
+          </ul>
         </div>
-      )}
+  
     </div>
   );
 };
 
 export default CalendarSection;
-  

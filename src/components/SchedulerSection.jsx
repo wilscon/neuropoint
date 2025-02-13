@@ -1,5 +1,4 @@
 'use client';
-import { useAuth } from "../lib/useAuth";
 import Calendar from "./Calendar";
 import React from "react";
 
