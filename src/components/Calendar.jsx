@@ -18,6 +18,15 @@ const CalendarSection = () => {
   const [date, setDate] = useState(initialDate);
   const [currentMonth, setCurrentMonth] = useState(initialDate);
   const [availableTimes, setAvailableTimes] = useState(defaultAvailableTimes);
+  const [selectedTime, setSelectedTime] = useState(null); 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [notes, setNotes] = useState("");
 
   const handleDateClick = async (clickedDate) => {
     setDate(clickedDate);
@@ -32,12 +41,57 @@ const CalendarSection = () => {
 
   const getTileClassName = ({ date }) => {
     const formattedDate = date.toISOString().split("T")[0];
-    const formattedSelectedDate = selectedDate.toISOString().split("T")[0];
+    const formatDate = new Date(selectedDate);
 
-    if (formattedDate === formattedSelectedDate) return "selected-day";
-    if (!availableDates.includes(formattedDate)) return "unavailable-day"; 
+    const year = formatDate.getFullYear();
+    const month = String(formatDate.getMonth() + 1).padStart(2, "0"); // Ensure 2-digit month
+    const day = String(formatDate.getDate()).padStart(2, "0"); // Ensure 2-digit day
+
+    const formattedSelectedDate = `${year}-${month}-${day}`;
+
+    if (formattedDate == formattedSelectedDate) 
+      return "selected-day";
+    
+    if (!availableDates.includes(formattedDate))
+       return "unavailable-day"; 
 
     return "available-day"; 
+  };
+
+  const handleTimeSlotClick = (time) => {
+    setSelectedTime(time);
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setAddress("");
+    setCity("");
+    setState("");
+    setZipCode("");
+    setNotes("");
+  };
+
+  const closeModal = () => {
+    setSelectedTime(null);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Submitted Data:", {
+      firstName,
+      lastName,
+      email,
+      address, 
+      city,
+      state,
+      zipCode,
+      notes,
+      selectedTime,
+      selectedDate: selectedDate.toLocaleDateString("en-US"),
+    });
+
+    alert("Appointment successfully booked!");
+
+    closeModal();
   };
 
   
@@ -68,7 +122,7 @@ const CalendarSection = () => {
             {availableTimes.length > 0 ? (
               availableTimes.map((time, index) => (
                 <li key={index}>
-                  <button className="time-slot-button" onClick={() => alert(`You selected ${time}`)}>
+                   <button className="time-slot-button" onClick={() => handleTimeSlotClick(time)}>
                     {time}
                   </button>
                 </li>
@@ -78,6 +132,94 @@ const CalendarSection = () => {
             )}
           </ul>
         </div>
+         {selectedTime && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Confirm Appointment</h2>
+            <strong>{`${new Date(selectedDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })} at ${selectedTime}`}</strong>
+            
+            <form onSubmit={handleSubmit} className="form-container">
+              <div className="form-group">
+                <label>First Name:</label>
+                <input 
+                  type="text" 
+                  value={firstName} 
+                  onChange={(e) => setFirstName(e.target.value)} 
+                  required 
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Last Name:</label>
+                <input 
+                  type="text" 
+                  value={lastName} 
+                  onChange={(e) => setLastName(e.target.value)} 
+                  required 
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Email:</label>
+                <input 
+                  type="email" 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label>Address:</label>
+                <input 
+                  type="text" 
+                  value={address} 
+                  onChange={(e) => setAddress(e.target.value)} 
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label>City:</label>
+                <input 
+                  type="text" 
+                  value={city} 
+                  onChange={(e) => setCity(e.target.value)} 
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label>State:</label>
+                <input 
+                  type="text" 
+                  value={state} 
+                  onChange={(e) => setState(e.target.value)} 
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label>Zip Code:</label>
+                <input 
+                  type="text" 
+                  value={zipCode} 
+                  onChange={(e) => setZipCode(e.target.value)} 
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label>Notes:</label>
+                <textarea 
+                  type="text" 
+                  className="large-textArea"
+                  value={notes} 
+                  onChange={(e) => setNotes(e.target.value)} 
+                  rows={4}
+                />
+              </div>
+              <button type="submit" className="submit-button">Confirm</button>
+            </form>
+          <button className="close-button" onClick={closeModal}>Close</button>
+        </div>
+      </div>
+      )}
   
     </div>
   );
