@@ -34,7 +34,7 @@ function App() {
           />
           <Route path = "/login" element = {<div><NavbarState/><LoginPage/></div>}/>
           <Route path = "/schedule" element = {!loading && user ? <div><NavbarState/><SchedulerSection/></div> : <div><NavbarState/><ErrorSection message="You must log in to view this page." buttonText="Log in" page="/login"/></div>}/>
-          {/*<Route path = "/schedule" element = {<div> <NavbarState/> <SchedulerSection/> </div>}/>*/}
+          {/*Route path = "/schedule" element = {<div> <NavbarState/> <SchedulerSection/> </div>}/>*/}
           <Route path = "*" element = {<div><NavbarState/><ErrorSection message="Oops! The page you're looking for does not exists." buttonText="Home" page="/"/></div>}/>
         </Routes>
     </div>

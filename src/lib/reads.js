@@ -21,6 +21,7 @@ export const getAvailableTimes = async (date) => {
     const snapshot = await getDocs(q);
 
     const times = snapshot.docs
+    .filter(doc => !doc.data().booked) 
     .map(doc => doc.data().time) 
     .map(timestamp => timestamp.toDate()) 
     .sort((a, b) => a.getTime() - b.getTime()) 
@@ -32,5 +33,5 @@ export const getAvailableTimes = async (date) => {
       }).replace(/^0/, '')
     );
   
-    return times;  
+  return times;
 };
