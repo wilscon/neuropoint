@@ -28,6 +28,7 @@ const CalendarSection = () => {
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [notes, setNotes] = useState("");
+  const [id, setId] = useState("");
 
   const handleDateClick = async (clickedDate) => {
     setDate(clickedDate);
@@ -59,8 +60,10 @@ const CalendarSection = () => {
     return "available-day"; 
   };
 
-  const handleTimeSlotClick = (time) => {
+  const handleTimeSlotClick = (id, time) => {
+    console.log("id: " + id);
     setSelectedTime(time);
+    setId(id);
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -73,6 +76,7 @@ const CalendarSection = () => {
 
   const closeModal = () => {
     setSelectedTime(null);
+    setId(null)
   };
 
   const handleSubmit = async (e) => {
@@ -92,9 +96,10 @@ const CalendarSection = () => {
 
     alert("Appointment successfully booked!");
 
-    await updateBookingStatus(address, true, city, email, firstName, lastName, notes, state, zipCode);
+    await updateBookingStatus(id, address, true, city, email, firstName, lastName, notes, state, zipCode);
 
     const times = await getAvailableTimes(selectedDate);
+    
     setAvailableTimes(times); 
 
     closeModal();
@@ -126,9 +131,9 @@ const CalendarSection = () => {
           <h2 className="availability-title">Availability:</h2>
           <ul className="availability-list">
             {availableTimes.length > 0 ? (
-              availableTimes.map((time, index) => (
-                <li key={index}>
-                   <button className="time-slot-button" onClick={() => handleTimeSlotClick(time)}>
+              availableTimes.map(({id, time}) => (
+                <li key={id}>
+                   <button className="time-slot-button" onClick={() => handleTimeSlotClick(id,time)}>
                     {time}
                   </button>
                 </li>
