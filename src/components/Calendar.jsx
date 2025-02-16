@@ -5,6 +5,7 @@ import { getAvailableTimes} from "../lib/reads";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import './CalendarStyles.css'; // Import custom styles
+import { updateBookingStatus } from '../lib/update';
 
 const CalendarSection = () => {
   
@@ -74,7 +75,7 @@ const CalendarSection = () => {
     setSelectedTime(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitted Data:", {
       firstName,
@@ -90,6 +91,11 @@ const CalendarSection = () => {
     });
 
     alert("Appointment successfully booked!");
+
+    await updateBookingStatus();
+
+    const times = await getAvailableTimes(selectedDate);
+    setAvailableTimes(times); 
 
     closeModal();
   };
@@ -135,6 +141,7 @@ const CalendarSection = () => {
          {selectedTime && (
         <div className="modal-overlay">
           <div className="modal">
+         
             <h2>Confirm Appointment</h2>
             <strong>{`${new Date(selectedDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })} at ${selectedTime}`}</strong>
             
