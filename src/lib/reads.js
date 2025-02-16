@@ -21,17 +21,21 @@ export const getAvailableTimes = async (date) => {
     const snapshot = await getDocs(q);
 
     const times = snapshot.docs
-    .filter(doc => !doc.data().booked) 
-    .map(doc => doc.data().time) 
-    .map(timestamp => timestamp.toDate()) 
-    .sort((a, b) => a.getTime() - b.getTime()) 
-    .map(date => 
-      date.toLocaleTimeString("en-US", { 
+    .filter(doc => !doc.data().booked) // 🔥 Only include unbooked times
+    .map(doc => ({
+      id: doc.id, // 🔥 Include documentId
+      time: doc.data().time.toDate() // Convert Firestore Timestamp to Date
+    }))
+    .sort((a, b) => a.time.getTime() - b.time.getTime()) // Sort chronologically
+    .map(({ id, time }) => ({
+      id, // 🔥 Preserve documentId
+      time: time.toLocaleTimeString("en-US", { 
         hour: "2-digit", 
         minute: "2-digit", 
         hour12: true 
-      }).replace(/^0/, '')
-    );
+      }).replace(/^0/, '') // Format and remove leading zero
+    }));
   
+  console.log(times); // ✅ Returns an array of objects with { id, time }
   return times;
 };
