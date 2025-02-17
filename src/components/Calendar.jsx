@@ -1,20 +1,26 @@
 'use client';
-import React, { useState } from 'react';
-import { getAvailableTimes} from "../lib/reads";
+import React, { useState,useEffect } from 'react';
+import { getAvailableDays, getAvailableTimes} from "../lib/reads";
+import {addAvailability} from "../lib/create";
+import DatePicker from "react-datepicker";
+import TimePicker from "react-time-picker";
+import "react-datepicker/dist/react-datepicker.css";
 import Modal from './Modal';
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import './CalendarStyles.css'; // Import custom styles
 import { updateBookingStatus } from '../lib/update';
+import { add } from 'date-fns';
 
 const CalendarSection = () => {
   
   const defaultAvailableTimes = [];
-  const availableDates = ["2025-02-15", "2025-02-19"];
   const today = new Date();
   const initialDate = today;
   const initialSelectedDate = today;
 
+
+  const [availableDates, setAvailableDates] = useState([]); // 🔥 Dynamically set available dates
   const [selectedDate, setSelectedDate] = useState(initialSelectedDate);
   const [date, setDate] = useState(initialDate);
   const [currentMonth, setCurrentMonth] = useState(initialDate);
@@ -29,6 +35,18 @@ const CalendarSection = () => {
   const [zipCode, setZipCode] = useState("");
   const [notes, setNotes] = useState("");
   const [id, setId] = useState("");
+  const [selectedDatePick, setSelectedDatePick] = useState(null);
+  const [timePick, setTimePick] = useState(null);
+
+  useEffect(() => {
+    const fetchAvailableDates = async () => {
+      const dates = await getAvailableDays(); // Fetch from Firestore
+      setAvailableDates(dates); // Set state with available dates
+    };
+
+    fetchAvailableDates();
+  }, []); // Empty dependency array ensures it runs only once on mount
+
 
   const handleDateClick = async (clickedDate) => {
     setDate(clickedDate);
@@ -105,6 +123,28 @@ const CalendarSection = () => {
     closeModal();
   };
 
+  const addDate = async () => {
+
+    setTimePick("");
+    setSelectedDatePick("");
+    
+    console.log("Adding " + selectedDatePick + " " + timePick);
+
+    const [hours, minutes] = timePick.split(":").map(Number);
+    const newDate = new Date(selectedDatePick);
+    newDate.setHours(hours, minutes, 0); // Set time to the date
+
+    console.log("Combined DateTime:", newDate);
+   
+    
+
+    await addAvailability(newDate);
+
+    const dates = await getAvailableDays(); // Fetch from Firestore
+      setAvailableDates(dates); // Set state with available dates
+    
+  }
+
   
   const isTileDisabled = ({ date }) => {
     const formattedDate = date.toISOString().split("T")[0];
@@ -143,6 +183,12 @@ const CalendarSection = () => {
             )}
           </ul>
         </div>
+        <h1 className='mt-10'>Add availability</h1>
+        <DatePicker selected={selectedDatePick} onChange={(date) => setSelectedDatePick(date)} />
+        <input type="time" onChange={(e) => setTimePick(e.target.value)}/>
+        <button onClick={() => addDate()}>
+          Add
+        </button>
         <Modal
         selectedDate={selectedDate}
         selectedTime={selectedTime}
