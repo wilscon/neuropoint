@@ -22,11 +22,49 @@
     font-size: 16px;
     width: 100%;
   }
+
+  .delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+
+  .add-button{
+    background-color: #00888E;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-top: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 50%;
+
+  }
+
+  .add-button:hover{
+    background-color: white;
+    color: #00888E;
+    border: 2px solid #00888E;
+  }
   
   .time-slot-button:hover {
     background-color: white;
     color: #00888E;
     border: 2px solid #00888E;
+  }
+
+ 
+
+  .availability-item{
+    display: flex;
+    align-items: center; /* Aligns buttons vertically */
+    gap: 10px; /* Space between buttons */
   }
   
   .modal-overlay {
@@ -137,7 +175,21 @@
     color: red;
   }
   
+  .date-time-container {
+    display: flex;
+    gap: 20px; /* Adds spacing between DatePicker and time input */
+    align-items: center; /* Ensures proper vertical alignment */
+  }
   
+  .datepicker {
+    padding: 8px;
+    border: 1px solid black;
+  }
+  
+  .timepicker {
+    padding: 8px;
+    border: 1px solid black
+  }
 
 
   

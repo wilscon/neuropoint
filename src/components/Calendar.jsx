@@ -2,6 +2,7 @@
 import React, { useState,useEffect } from 'react';
 import { getAvailableDays, getAvailableTimes} from "../lib/reads";
 import {addAvailability} from "../lib/create";
+import {deleteTimeDB} from "../lib/delete";
 import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -145,6 +146,16 @@ const CalendarSection = () => {
     
   }
 
+  const deleteTime = async (id) => {
+
+    deleteTimeDB(id);
+    const dates = await getAvailableDays(); // Fetch from Firestore
+    setAvailableDates(dates); // Set state with available dates
+    const times = await getAvailableTimes(selectedDate);
+    
+    setAvailableTimes(times); 
+  }
+
   
   const isTileDisabled = ({ date }) => {
     const formattedDate = date.toISOString().split("T")[0];
@@ -170,25 +181,34 @@ const CalendarSection = () => {
         <div className="availability-container">
           <h2 className="availability-title">Availability:</h2>
           <ul className="availability-list">
-            {availableTimes.length > 0 ? (
-              availableTimes.map(({id, time}) => (
-                <li key={id}>
-                   <button className="time-slot-button" onClick={() => handleTimeSlotClick(id,time)}>
-                    {time}
-                  </button>
-                </li>
-              ))
-            ) : (
-              <p className="no-availability-text">No available times for this date.</p>
-            )}
-          </ul>
-        </div>
-        <h1 className='mt-10'>Add availability</h1>
-        <DatePicker selected={selectedDatePick} onChange={(date) => setSelectedDatePick(date)} />
-        <input type="time" onChange={(e) => setTimePick(e.target.value)}/>
-        <button onClick={() => addDate()}>
-          Add
+  {availableTimes.length > 0 ? (
+    availableTimes.map(({ id, time }) => (
+      <li key={id} className="availability-item">
+        <button className="time-slot-button" onClick={() => handleTimeSlotClick(id, time)}>
+          {time}
         </button>
+        <button className="delete-button" onClick={() => deleteTime(id)}>
+          X
+        </button>
+      </li>
+    ))
+  ) : (
+    <p className="no-availability-text">No available times for this date.</p>
+  )}
+</ul>
+        </div>
+        <h1 className='mt-10'>Add Availability:</h1>
+<div className="date-time-container">
+  <DatePicker 
+    selected={selectedDatePick} 
+    onChange={(date) => setSelectedDatePick(date)} 
+    className="datepicker"
+  />
+  <input type="time" onChange={(e) => setTimePick(e.target.value)} className="timepicker"/>
+</div>
+<button className="add-button" onClick={() => addDate()}>
+  Add
+</button>
         <Modal
         selectedDate={selectedDate}
         selectedTime={selectedTime}
