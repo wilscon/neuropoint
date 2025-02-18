@@ -24,16 +24,8 @@ export const getAvailableDays = async()=> {
     
           return `${year}-${month}-${day}`; // Format as "YYYY-MM-DD"
         });
-
-        /*const uniqueDays = days.filter(
-            (value, index, self) =>
-              index === self.findIndex((t) => t.day === value.day)
-          );*/
-
-          const uniqueDays = [...new Set(days)];
-
           
-    
+        const uniqueDays = [...new Set(days)];
         console.log("Formatted Times:", uniqueDays);
         return uniqueDays;
       } catch (error) {
@@ -75,4 +67,21 @@ export const getAvailableTimes = async (date) => {
   
   console.log(times); // ✅ Returns an array of objects with { id, time }
   return times;
+};
+
+export const getTime = async(id) => {
+
+    const querySnapshot = await getDocs(collection(db, "availability"));
+    
+    let availabilityObj = {};
+        querySnapshot.forEach((doc) => {
+            Object.entries(doc.data()).forEach(([key, value]) => {
+              availabilityObj[key] = value; // Store each field as a key-value pair
+            });
+          });
+
+        console.log("GetTime data: " + availabilityObj);
+    
+        return availabilityObj;
+
 };

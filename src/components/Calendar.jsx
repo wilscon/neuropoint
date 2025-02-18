@@ -1,6 +1,6 @@
 'use client';
 import React, { useState,useEffect } from 'react';
-import { getAvailableDays, getAvailableTimes} from "../lib/reads";
+import { getAvailableDays, getAvailableTimes, getTime} from "../lib/reads";
 import {addAvailability} from "../lib/create";
 import {deleteTimeDB} from "../lib/delete";
 import DatePicker from "react-datepicker";
@@ -11,6 +11,7 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import './CalendarStyles.css'; // Import custom styles
 import { updateBookingStatus } from '../lib/update';
+import { useAuth } from "../lib/useAuth";
 import { add } from 'date-fns';
 
 const CalendarSection = () => {
@@ -20,7 +21,7 @@ const CalendarSection = () => {
   const initialDate = today;
   const initialSelectedDate = today;
 
-
+  const {user,loading} = useAuth();
   const [availableDates, setAvailableDates] = useState([]); // 🔥 Dynamically set available dates
   const [selectedDate, setSelectedDate] = useState(initialSelectedDate);
   const [date, setDate] = useState(initialDate);
@@ -93,6 +94,17 @@ const CalendarSection = () => {
     setNotes("");
   };
 
+  const handleTimeSlotClickEdit = async (id,time) => {
+    alert("edit was clicked");
+ 
+  /* const timeDate = await getTime(id);
+  
+   console.log("address: " + timeDate["address"]);
+
+   setSelectedTime(time);*/
+
+  }
+
   const closeModal = () => {
     setSelectedTime(null);
     setId(null)
@@ -163,67 +175,75 @@ const CalendarSection = () => {
   };
 
   return (
-    <div className="calendar-container">
-      <Calendar
-        value={date}
-        onChange={setDate}
-        minDate={new Date()} // Disable past dates
-        defaultActiveStartDate={new Date()} // Load with the current month
-        onClickDay={handleDateClick}
-        onActiveStartDateChange={handleActiveStartDateChange} // Detect month changes
-        tileClassName={getTileClassName} // Apply custom styles
-        tileDisabled={isTileDisabled} // Disable unselectable dates
-      />
-      <p className="selected-date-text">
-        <strong>{new Date(selectedDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</strong>
-      </p>
-      
-        <div className="availability-container">
-          <h2 className="availability-title">Availability:</h2>
-          <ul className="availability-list">
-  {availableTimes.length > 0 ? (
-    availableTimes.map(({ id, time }) => (
-      <li key={id} className="availability-item">
-        <button className="time-slot-button" onClick={() => handleTimeSlotClick(id, time)}>
-          {time}
-        </button>
-        <button className="delete-button" onClick={() => deleteTime(id)}>
-          X
-        </button>
-      </li>
-    ))
-  ) : (
-    <p className="no-availability-text">No available times for this date.</p>
-  )}
-</ul>
-        </div>
-        <h1 className='mt-10'>Add Availability:</h1>
-<div className="date-time-container">
-  <DatePicker 
-    selected={selectedDatePick} 
-    onChange={(date) => setSelectedDatePick(date)} 
-    className="datepicker"
-  />
-  <input type="time" onChange={(e) => setTimePick(e.target.value)} className="timepicker"/>
+  <div className="calendar-container">
+              <Calendar
+                value={date}
+                onChange={setDate}
+                minDate={new Date()} // Disable past dates
+                defaultActiveStartDate={new Date()} // Load with the current month
+                onClickDay={handleDateClick}
+                onActiveStartDateChange={handleActiveStartDateChange} // Detect month changes
+                tileClassName={getTileClassName} // Apply custom styles
+                tileDisabled={isTileDisabled} // Disable unselectable dates
+              />
+              <p className="selected-date-text">
+              <strong>{new Date(selectedDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</strong>
+              </p>
+              <div className="availability-container">
+                      <h2 className="availability-title">Availability:</h2>
+                      <ul className="availability-list">
+                      {availableTimes.length > 0 ? (
+                        availableTimes.map(({ id, time }) => (
+                        <li key={id} className="availability-item">
+                        <div className="time-slot-container">
+                        <button className="time-slot-button" onClick={() => handleTimeSlotClick(id, time)}>
+                          {time}
+                          {user ?
+                          <span className="info-button" onClick={(e) => { e.stopPropagation(handleTimeSlotClickEdit(id,time));  }}>
+                            Edit
+                          </span> : ""}
+                        </button>
+                        </div>
+                        {user ? 
+                        <button className="delete-button" onClick={() => deleteTime(id)}>
+                        X
+                        </button>: ""}
+                        </li>
+                      ))
+                      ) : (
+                      <p className="no-availability-text">No available times for this date.</p>
+                      )}
+                      </ul>
+                      {user ? <>
+                      <h1 className='mt-10'>Add Availability:</h1>
+                      
+                      <div className="date-time-container">
+                        <DatePicker 
+                        selected={selectedDatePick} 
+                        onChange={(date) => setSelectedDatePick(date)} 
+                        className="datepicker"
+                        />
+                        <input type="time" onChange={(e) => setTimePick(e.target.value)} className="timepicker"/>
+                      </div>
+                      <button className="add-button" onClick={() => addDate()}>
+                        Add
+                      </button> </> : ""}
+              </div>
+          <Modal
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+          firstName={firstName} setFirstName={setFirstName}
+          lastName={lastName} setLastName={setLastName}
+          email={email} setEmail={setEmail}
+          address={address} setAddress={setAddress}
+          city={city} setCity={setCity}
+          state={state} setState={setState}
+          zipCode={zipCode} setZipCode={setZipCode}
+          notes={notes} setNotes={setNotes}
+          closeModal={closeModal}
+          handleSubmit={handleSubmit}
+          />
 </div>
-<button className="add-button" onClick={() => addDate()}>
-  Add
-</button>
-        <Modal
-        selectedDate={selectedDate}
-        selectedTime={selectedTime}
-        firstName={firstName} setFirstName={setFirstName}
-        lastName={lastName} setLastName={setLastName}
-        email={email} setEmail={setEmail}
-        address={address} setAddress={setAddress}
-        city={city} setCity={setCity}
-        state={state} setState={setState}
-        zipCode={zipCode} setZipCode={setZipCode}
-        notes={notes} setNotes={setNotes}
-        closeModal={closeModal}
-        handleSubmit={handleSubmit}
-      />
-    </div>
   );
 };
 
