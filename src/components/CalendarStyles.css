@@ -175,11 +175,11 @@
     color: red;
   }
   
-  .date-time-container {
-    display: flex;
-    gap: 20px; /* Adds spacing between DatePicker and time input */
-    align-items: center; /* Ensures proper vertical alignment */
-  }
+  .datepicker,
+.timepicker {
+  display: block; /* Forces each element to take up full width */
+  margin-bottom: 10px; /* Adds spacing */
+}
   
   .datepicker {
     padding: 8px;
@@ -225,5 +225,18 @@
     padding: 2px 5px;
   }
   
+  .time-input-container{
+    display: flex; /* Makes h2 and input appear on the same line */
+    align-items: center; /* Ensures vertical alignment */
+    gap: 10px; /* Adds spacing between h2 and input */
+
+  }
+  
+  .date-input-container{
+    display: flex; /* Makes h2 and input appear on the same line */
+    align-items: center; /* Ensures vertical alignment */
+    gap: 10px; /* Adds spacing between h2 and input */
+
+  }
 
   
