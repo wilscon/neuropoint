@@ -15,7 +15,18 @@ export const getAvailableDays = async(user)=> {
     try {
         const querySnapshot = await getDocs(availabilityRef); // Use predefined availabilityRef
     
-        const days = 
+        const days = user ? 
+        querySnapshot.docs
+        .map(doc => {
+          const date = doc.data().time.toDate(); // Convert Firestore Timestamp to JavaScript Date
+    
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure 2-digit month
+          const day = String(date.getDate()).padStart(2, "0"); // Ensure 2-digit day
+    
+          return `${year}-${month}-${day}`; // Format as "YYYY-MM-DD"
+        })
+        :
         querySnapshot.docs
         .filter(doc => !doc.data().booked)
         .map(doc => {
