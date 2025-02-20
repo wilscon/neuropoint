@@ -42,18 +42,18 @@ const CalendarSection = () => {
 
   useEffect(() => {
     const fetchAvailableDates = async () => {
-      const dates = await getAvailableDays(); // Fetch from Firestore
-      setAvailableDates(dates); // Set state with available dates
+        const dates = await getAvailableDays(user);
+        setAvailableDates(dates);
+        const times = await getAvailableTimes(selectedDate,user);
+        setAvailableTimes(times);
     };
-
     fetchAvailableDates();
-  }, []); // Empty dependency array ensures it runs only once on mount
-
+  }, [user,loading]); // Empty dependency array ensures it runs only once on mount
 
   const handleDateClick = async (clickedDate) => {
     setDate(clickedDate);
     setSelectedDate(clickedDate);
-    const times = await getAvailableTimes(clickedDate);
+    const times = await getAvailableTimes(clickedDate,user);
     setAvailableTimes(times); 
   };
 
@@ -129,7 +129,7 @@ const CalendarSection = () => {
 
     await updateBookingStatus(id, address, true, city, email, firstName, lastName, notes, state, zipCode);
 
-    const times = await getAvailableTimes(selectedDate);
+    const times = await getAvailableTimes(selectedDate, user);
     
     setAvailableTimes(times); 
 
@@ -140,23 +140,16 @@ const CalendarSection = () => {
 
     setTimePick("");
     setSelectedDatePick("");
-    
-    console.log("Adding " + selectedDatePick + " " + timePick);
-
     const [hours, minutes] = timePick.split(":").map(Number);
     const newDate = new Date(selectedDatePick);
     newDate.setHours(hours, minutes, 0); // Set time to the date
-
-    console.log("Combined DateTime:", newDate);
-   
     
-
     await addAvailability(newDate);
 
     const dates = await getAvailableDays(); // Fetch from Firestore
     setAvailableDates(dates); // Set state with available dates
 
-    const times = await getAvailableTimes(selectedDate);
+    const times = await getAvailableTimes(selectedDate, user);
     
     setAvailableTimes(times); 
     
@@ -167,7 +160,7 @@ const CalendarSection = () => {
     deleteTimeDB(id);
     const dates = await getAvailableDays(); // Fetch from Firestore
     setAvailableDates(dates); // Set state with available dates
-    const times = await getAvailableTimes(selectedDate);
+    const times = await getAvailableTimes(selectedDate, user);
     
     setAvailableTimes(times); 
   }
@@ -197,10 +190,10 @@ const CalendarSection = () => {
         <h2 className="text-2xl text-gray-800 mb-4">Availability:</h2>
         <ul className="availability-list">
           {availableTimes.length > 0 ? (
-            availableTimes.map(({ id, time }) => (
+            availableTimes.map(({ id, time,booked }) => (
               <li key={id} className="availability-item">
                 <div className="time-slot-container">
-                  <button className="time-slot-button" onClick={() => handleTimeSlotClick(id, time)}>
+                  <button className={booked ? "time-slot-button-booked" : "time-slot-button" } onClick={() => handleTimeSlotClick(id, time)}>
                     {time}
                     {user ?
                       <span className="info-button" onClick={(e) => { e.stopPropagation(handleTimeSlotClickEdit(id, time)); }}>
@@ -244,7 +237,7 @@ const CalendarSection = () => {
               />
             </div>
           </div>
-          <button className="add-button" onClick={() => addDate()}>
+          <button className="add-button mb-10" onClick={() => addDate()}>
             Add
           </button> </> : ""}
       </div>
