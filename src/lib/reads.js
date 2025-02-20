@@ -8,14 +8,17 @@ export const userIsAdmin = async (uid) => {
 
 const availabilityRef = collection(db, "availability");
 
-export const getAvailableDays = async()=> {
+export const getAvailableDays = async(user)=> {
 
     const availabilityRef = collection(db, "availability");
-
+    console.log("user inside getAvailableDays: " + user)
     try {
         const querySnapshot = await getDocs(availabilityRef); // Use predefined availabilityRef
     
-        const days = querySnapshot.docs.map(doc => {
+        const days = 
+        querySnapshot.docs
+        .filter(doc => !doc.data().booked)
+        .map(doc => {
           const date = doc.data().time.toDate(); // Convert Firestore Timestamp to JavaScript Date
     
           const year = date.getFullYear();
@@ -34,7 +37,8 @@ export const getAvailableDays = async()=> {
       }
 }
 
-export const getAvailableTimes = async (date) => {
+
+export const getAvailableTimes = async (date, user) => {
     
     const startOfDay = Timestamp.fromDate(new Date(date.setHours(0, 0, 0, 0))); // 00:00:00
     const endOfDay = Timestamp.fromDate(new Date(date.setHours(23, 59, 59, 999))); // 23:59:59
@@ -49,22 +53,43 @@ export const getAvailableTimes = async (date) => {
     const q = query(availabilityRef, where("time", ">=", startOfDay), where("time", "<=", endOfDay));
     const snapshot = await getDocs(q);
 
-    const times = snapshot.docs
-    .filter(doc => !doc.data().booked) // 🔥 Only include unbooked times
+    console.log("user inside getAvailableTimes: " + user);
+    const times = user ? 
+    snapshot.docs
     .map(doc => ({
       id: doc.id, // 🔥 Include documentId
-      time: doc.data().time.toDate() // Convert Firestore Timestamp to Date
+      time: doc.data().time.toDate(), // Convert Firestore Timestamp to Date
+      booked: doc.data().booked,
     }))
     .sort((a, b) => a.time.getTime() - b.time.getTime()) // Sort chronologically
-    .map(({ id, time }) => ({
+    .map(({ id, time, booked }) => ({
       id, // 🔥 Preserve documentId
       time: time.toLocaleTimeString("en-US", { 
         hour: "2-digit", 
         minute: "2-digit", 
         hour12: true 
-      }).replace(/^0/, '') // Format and remove leading zero
+      }).replace(/^0/, ''),
+      booked,
+    }))
+    : snapshot.docs
+    .filter(doc => !doc.data().booked) // 🔥 Only include unbooked times
+    .map(doc => ({
+      id: doc.id, // 🔥 Include documentId
+      time: doc.data().time.toDate(), // Convert Firestore Timestamp to Date
+      booked: doc.data().booked,
+    }))
+    .sort((a, b) => a.time.getTime() - b.time.getTime()) // Sort chronologically
+    .map(({ id, time, booked }) => ({
+      id, // 🔥 Preserve documentId
+      time: time.toLocaleTimeString("en-US", { 
+        hour: "2-digit", 
+        minute: "2-digit", 
+        hour12: true 
+      }).replace(/^0/, ''),// Format and remove leading zero
+      booked,
     }));
-  
+
+
   console.log(times); // ✅ Returns an array of objects with { id, time }
   return times;
 };

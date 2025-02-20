@@ -4,7 +4,7 @@ import { Timestamp } from "firebase/firestore";
 
 export const updateBookingStatus = async (id, address,booked, city,email, firstName, lastName,notes, zipCode) => {
 
-    alert("inside updateBookingStatus");
+    //alert("inside updateBookingStatus");
 
     try {
         const docRef = doc(db, "availability", id); // Get document reference

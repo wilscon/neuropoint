@@ -11,17 +11,7 @@
     color: white;
   }
 
-  .time-slot-button {
-    background-color: #00888E;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin-top: 5px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%;
-  }
+ 
 
   .delete-button {
     background-color: #ff4d4d;
@@ -200,6 +190,22 @@
   .time-slot-button {
     position: relative;
     background-color: #00888E;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-top: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .time-slot-button-booked {
+    position: relative;
+    background-color: lightgrey;
     color: white;
     border: none;
     padding: 10px 15px;
