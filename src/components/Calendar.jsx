@@ -133,6 +133,9 @@ const CalendarSection = () => {
     
     setAvailableTimes(times); 
 
+    const days = await getAvailableDays(user);
+    setAvailableDates(days); // Set state with available dates
+
     closeModal();
   };
 
@@ -146,7 +149,7 @@ const CalendarSection = () => {
     
     await addAvailability(newDate);
 
-    const dates = await getAvailableDays(); // Fetch from Firestore
+    const dates = await getAvailableDays(user); // Fetch from Firestore
     setAvailableDates(dates); // Set state with available dates
 
     const times = await getAvailableTimes(selectedDate, user);
@@ -158,7 +161,7 @@ const CalendarSection = () => {
   const deleteTime = async (id) => {
 
     deleteTimeDB(id);
-    const dates = await getAvailableDays(); // Fetch from Firestore
+    const dates = await getAvailableDays(user); // Fetch from Firestore
     setAvailableDates(dates); // Set state with available dates
     const times = await getAvailableTimes(selectedDate, user);
     
@@ -193,7 +196,7 @@ const CalendarSection = () => {
             availableTimes.map(({ id, time,booked }) => (
               <li key={id} className="availability-item">
                 <div className="time-slot-container">
-                  <button className={booked ? "time-slot-button-booked" : "time-slot-button" } onClick={() => handleTimeSlotClick(id, time)}>
+                  <button className={booked ? "time-slot-button-booked" : "time-slot-button" } onClick={() => booked ? null : handleTimeSlotClick(id, time)}>
                     {time}
                     {user ?
                       <span className="info-button" onClick={(e) => { e.stopPropagation(handleTimeSlotClickEdit(id, time)); }}>
