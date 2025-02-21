@@ -11,12 +11,18 @@ const availabilityRef = collection(db, "availability");
 export const getAvailableDays = async(user)=> {
 
     const availabilityRef = collection(db, "availability");
-    console.log("user inside getAvailableDays: " + user)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ensure we compare dates without time differences
+
     try {
         const querySnapshot = await getDocs(availabilityRef); // Use predefined availabilityRef
     
-        const days = user ? 
+        /*const days = user ? 
         querySnapshot.docs
+        .filter(doc => {
+            const date = doc.data().time.toDate(); // Convert Firestore Timestamp to JavaScript Date
+            return date >= today; // ✅ Filter out past dates
+          })
         .map(doc => {
           const date = doc.data().time.toDate(); // Convert Firestore Timestamp to JavaScript Date
     
@@ -28,6 +34,10 @@ export const getAvailableDays = async(user)=> {
         })
         :
         querySnapshot.docs
+        .filter(doc => {
+            const date = doc.data().time.toDate(); // Convert Firestore Timestamp to JavaScript Date
+            return date >= today; // ✅ Filter out past dates
+          })
         .filter(doc => !doc.data().booked)
         .map(doc => {
           const date = doc.data().time.toDate(); // Convert Firestore Timestamp to JavaScript Date
@@ -37,8 +47,24 @@ export const getAvailableDays = async(user)=> {
           const day = String(date.getDate()).padStart(2, "0"); // Ensure 2-digit day
     
           return `${year}-${month}-${day}`; // Format as "YYYY-MM-DD"
-        });
+        });*/
           
+        const days = querySnapshot.docs
+        .filter(doc => {
+            const date = doc.data().time.toDate(); // Convert Firestore Timestamp to JavaScript Date
+            return date >= today; // ✅ Filter out past dates
+          })
+        .filter(doc => user || !doc.data().booked)
+        .map(doc => {
+          const date = doc.data().time.toDate(); // Convert Firestore Timestamp to JavaScript Date
+    
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure 2-digit month
+          const day = String(date.getDate()).padStart(2, "0"); // Ensure 2-digit day
+    
+          return `${year}-${month}-${day}`; // Format as "YYYY-MM-DD"
+        });
+
         const uniqueDays = [...new Set(days)];
         console.log("Formatted Times:", uniqueDays);
         return uniqueDays;
