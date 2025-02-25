@@ -57,43 +57,26 @@ export const getAvailableTimes = async (date, user) => {
     const snapshot = await getDocs(q);
 
     console.log("user inside getAvailableTimes: " + user);
-    const times = user ? 
-    snapshot.docs
+    const times = snapshot.docs
+    .filter(doc => user || !doc.data().booked)
     .map(doc => ({
-      id: doc.id, // 🔥 Include documentId
-      time: doc.data().time.toDate(), // Convert Firestore Timestamp to Date
+      id: doc.id, 
+      time: doc.data().time.toDate(), 
       booked: doc.data().booked,
     }))
-    .sort((a, b) => a.time.getTime() - b.time.getTime()) // Sort chronologically
+    .sort((a, b) => a.time.getTime() - b.time.getTime()) 
     .map(({ id, time, booked }) => ({
-      id, // 🔥 Preserve documentId
+      id, 
       time: time.toLocaleTimeString("en-US", { 
         hour: "2-digit", 
         minute: "2-digit", 
         hour12: true 
       }).replace(/^0/, ''),
       booked,
-    }))
-    : snapshot.docs
-    .filter(doc => !doc.data().booked) // 🔥 Only include unbooked times
-    .map(doc => ({
-      id: doc.id, // 🔥 Include documentId
-      time: doc.data().time.toDate(), // Convert Firestore Timestamp to Date
-      booked: doc.data().booked,
-    }))
-    .sort((a, b) => a.time.getTime() - b.time.getTime()) // Sort chronologically
-    .map(({ id, time, booked }) => ({
-      id, // 🔥 Preserve documentId
-      time: time.toLocaleTimeString("en-US", { 
-        hour: "2-digit", 
-        minute: "2-digit", 
-        hour12: true 
-      }).replace(/^0/, ''),// Format and remove leading zero
-      booked,
     }));
 
 
-  console.log(times); // ✅ Returns an array of objects with { id, time }
+  console.log(times); 
   return times;
 };
 
