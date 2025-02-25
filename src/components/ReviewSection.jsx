@@ -4,7 +4,7 @@ import Review from './Review';
 
 const ReviewSection = () => {
   return (
-        <section id="testimonials" className="bg-gray-50 pt-6 pb-12 scroll-mt-16">
+        <section id="reviews" className="bg-gray-50 pt-6 pb-12 scroll-mt-16">
           <h1 className="text-3xl font-bold text-center text-customTeal mb-8"> Reviews </h1>
           <div className="container mx-auto px-8">
               <Review

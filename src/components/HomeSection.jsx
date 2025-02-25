@@ -4,7 +4,7 @@ import LogoNoText from '../assets/images/logoTransparent.PNG';
 
 const HomeSection = () => { 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 px-4 sm:px-6">
+    <div id="home" className="flex flex-col items-center justify-center h-screen bg-gray-100 px-4 sm:px-6">
       <div className="flex items-center justify-center mb-4 mt-8">
         <div className="relative w-80 h-80 mb-4">
           <img
