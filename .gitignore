@@ -18,6 +18,7 @@
 .env.test.local
 .env.production.local
 .env
+.env.production
 
 npm-debug.log*
 yarn-debug.log*
@@ -27,3 +28,6 @@ serviceAccountKey.json
 src/lib/firebase.js
 
 .vscode/
+"sendgrid.env" 
+sendgrid.env 
+

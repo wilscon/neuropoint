@@ -1,11 +1,9 @@
 import { collection, getDocs, doc, getDoc, query, where, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import { Timestamp } from "firebase/firestore";
+import {sendEmail} from "./sendEmail";
 
-export const updateBookingStatus = async (id, address,booked, city,email, firstName, lastName,notes, zipCode) => {
-
-    //alert("inside updateBookingStatus");
-
+export const updateBookingStatus = async (id, address,booked, city,email, firstName, lastName,notes, state, zipCode) => {
     try {
         const docRef = doc(db, "availability", id); // Get document reference
     
@@ -20,9 +18,10 @@ export const updateBookingStatus = async (id, address,booked, city,email, firstN
             zipCode: zipCode,
         });
     
-        console.log(`✅ Successfully updated "booking" to ${true} in document qvkeXoGbE4UmqAF4nFje`);
-      } catch (error) {
-        console.error("❌ Error updating document:", error);
+        await sendEmail(firstName, lastName, email, address, city, state, zipCode, notes);
+      
+    } catch (error) {
+        console.error('Error updating document:", error');
       }
 };
 
