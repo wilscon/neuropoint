@@ -25,14 +25,14 @@ function App() {
                     <HomeSection/>
                     <AboutSection/>
                     <TeamSection/>
-                    <ServicesSection/>
+                    <ServicesSection/> 
                     <ReviewSection/>
                     <ContactSection/>
                     <FooterSection/>
                     </div>}
           />
           <Route path = "/login" element = {<div><Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <LoginPage/></div>}/>
-          {<Route path = "/schedule" element = {<div> <Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <SchedulerSection/> </div>}/>}
+          <Route path = "/schedule" element = {<div> <Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <SchedulerSection/> </div>}/>
           <Route path = "*" element = {<div><Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <ErrorSection message="Oops! The page you're looking for does not exists." buttonText="Home" page="/"/></div>}/>
         </Routes>
     </div>
