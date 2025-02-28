@@ -198,7 +198,7 @@ const CalendarSection = () => {
                 <div className="time-slot-container">
                   <button className={booked ? "time-slot-button-booked" : "time-slot-button" } onClick={() => booked ? null : handleTimeSlotClick(id, time)}>
                     {time}
-                    {user ?
+                    {user && booked ?
                       <span className="info-button" onClick={(e) => { e.stopPropagation(handleTimeSlotClickEdit(id, time)); }}>
                         Edit
                       </span> : ""}
