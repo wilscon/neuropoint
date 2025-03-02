@@ -2,6 +2,7 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import TeamSection from './components/TeamSection';
 import AboutSection from './components/AboutSection';
+import Book from './components/Book';
 import ServicesSection from './components/ServicesSection';
 import Navbar from './components/Navbar';
 import ContactSection from './components/ContactSection';
@@ -33,6 +34,7 @@ function App() {
           />
           <Route path = "/login" element = {<div><Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <LoginPage/></div>}/>
           <Route path = "/schedule" element = {<div> <Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <SchedulerSection/> </div>}/>
+          <Route path = "/book/:timeId" element = {<div><Navbar navItems={[{name: "home", path: "/"},{name: "schedule", path: "/schedule"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/><Book/></div>}></Route>
           <Route path = "*" element = {<div><Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <ErrorSection message="Oops! The page you're looking for does not exists." buttonText="Home" page="/"/></div>}/>
         </Routes>
     </div>
