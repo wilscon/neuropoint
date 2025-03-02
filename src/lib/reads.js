@@ -56,7 +56,6 @@ export const getAvailableTimes = async (date, user) => {
     const q = query(availabilityRef, where("time", ">=", startOfDay), where("time", "<=", endOfDay));
     const snapshot = await getDocs(q);
 
-    console.log("user inside getAvailableTimes: " + user);
     const times = snapshot.docs
     .filter(doc => user || !doc.data().booked)
     .map(doc => ({
@@ -82,17 +81,23 @@ export const getAvailableTimes = async (date, user) => {
 
 export const getTime = async(id) => {
 
-    const querySnapshot = await getDocs(collection(db, "availability"));
-    
-    let availabilityObj = {};
-        querySnapshot.forEach((doc) => {
-            Object.entries(doc.data()).forEach(([key, value]) => {
-              availabilityObj[key] = value; // Store each field as a key-value pair
-            });
-          });
+    if (!id) {
+        console.error("Error: Missing document ID");
+        return null;
+    }
+    try {
+        const docRef = doc(db, "availability", id);
+        const docSnap = await getDoc(docRef);
 
-        console.log("GetTime data: " + availabilityObj);
-    
-        return availabilityObj;
-
+        if (docSnap.exists()) {
+            console.log("Fetched Data:", docSnap.data());
+            return docSnap.data(); // Returns the document data as an object
+        } else {
+            console.error("No such document!");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching document:", error);
+        return null;
+    }
 };
