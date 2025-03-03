@@ -4,6 +4,8 @@ import { getTime } from "../lib/reads"; // Import the function
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 import { updateBookingStatus } from '../lib/update';
+import Button from  './Button'; 
+
 
 const Book = () => {
     const navigate = useNavigate();
@@ -70,7 +72,7 @@ const Book = () => {
     
 
     return (
-        <div className="flex flex-col items-center min-h-screen bg-gray-100 px-4 sm:px-6 pt-20">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 pt-20">
             <div id="book">
             <h1 className="text-center text-2xl font-bold text-gray-800 mb-4">
                 Book Appointment
@@ -133,6 +135,10 @@ const Book = () => {
             {date ? (
                  <div id ="success" style={{display: "none"}}>
                  <p className="text-2xl font-bold text-gray-800 mb-4">You've successfully booked an appointment for {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
+                 <div className="flex justify-evenly w-full max-w-sm mx-auto mt-4">
+                    <Button text="Home" page="/" />
+                    <Button text="Schedule" page="/schedule" />
+                </div>
                 </div>
             ): <p></p>}
            
