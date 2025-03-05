@@ -72,7 +72,7 @@ const CalendarSection = () => {
   };
 
   const handleTimeSlotClickEdit = async (id,time) => {
-    alert("edit was clicked");
+    navigate(`/editbook/${id}`)
  
   /* const timeDate = await getTime(id);
   

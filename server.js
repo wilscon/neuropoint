@@ -11,19 +11,19 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
-
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.post("/send-email", async (req, res) => {
   try {
     await sendgrid.send({
       to: "connor.wilson48@gmail.com",
-      from: "connor.wilson48@gmail.com",
+      from: "no-reply@connor-wilson.com",
       subject: "Appointment Booked",
-      text: "First Name: " + req.body.firstName + '\n' + 
+      text: "Appointment Booked for: " + '\n' +
+            "First Name: " + req.body.firstName + '\n' + 
             "Last Name: " + req.body.lastName + '\n' + 
             "Email: " + req.body.email + '\n' + 
-            "Address: " + req.body.email + '\n' + 
+            "Address: " + req.body.address + '\n' + 
             "City: " + req.body.city + '\n' +
             "State: " + req.body.state + '\n' +
             "Zip Code: " + req.body.zipCode + '\n' +
