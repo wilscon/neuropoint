@@ -18,7 +18,7 @@ export const updateBookingStatus = async (id, address,booked, city,email, firstN
             zipCode: zipCode,
         });
     
-        //await sendEmail(firstName, lastName, email, address, city, state, zipCode, notes);
+        await sendEmail(firstName, lastName, email, address, city, state, zipCode, notes);
 
         return true;
       

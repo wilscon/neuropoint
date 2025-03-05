@@ -7,7 +7,7 @@ import { updateBookingStatus } from '../lib/update';
 import Button from  './Button'; 
 
 
-const Book = () => {
+const EditBook = () => {
     const navigate = useNavigate();
     const { timeId } = useParams();
     const [date, setDate] = useState(null);
@@ -19,13 +19,17 @@ const Book = () => {
     const [state, setState] = useState("");
     const [zipCode, setZipCode] = useState("");
     const [notes, setNotes] = useState("");
+    const [time, setTime] = useState("");
 
     useEffect(() => {
         const fetchDate = async () => {
             try {
                 console.log("Fetching data for ID:", timeId);
+                console.log("inside fetchDate");
                 const fetchedDate = await getTime(timeId);
                 setDate(fetchedDate);
+                //console.log("firstName: ", fetchedDate["firstName"]);
+                //setFirstName(fetchedDate["firstName"]);
             } catch (error) {
                 console.error("Error fetching date:", error);
             }
@@ -39,6 +43,17 @@ const Book = () => {
             console.log("Updated Date Object:", date);
             console.log("Booked:", date["booked"]);
             console.log("Time: ", date["time"]);
+            console.log("firstName: ", date["firstName"]);
+            setFirstName(date["firstName"]);
+            setLastName(date["lastName"]);
+            setEmail(date["email"]);
+            setAddress(date["address"]);
+            setCity(date["city"]);
+            setState(date["state"]);
+            setZipCode(date["zipCode"]);
+            setNotes(date["notes"]);
+            setTime(date["time"]);
+
         }
     }, [date]); // Runs when date updates
 
@@ -63,7 +78,10 @@ const Book = () => {
       };
 
       const edit = async (id) => {
-        navigate(`/editbook/${id}`)
+        document.getElementById("success").style.display = "none";
+        document.getElementById("book").style.display = "";
+        
+        //navigate(`/editbook/${id}`);
      
       /* const timeDate = await getTime(id);
       
@@ -78,7 +96,7 @@ const Book = () => {
         <div className="flex flex-col items-center  min-h-screen bg-gray-100 px-4 sm:px-6 pt-20">
             <div id="book" className="w-full max-w-4xl min-h-[600px] p-8 mx-auto">
             <h1 className="text-center text-2xl font-bold text-gray-800 mb-4">
-                Book Appointment
+                Edit Appointment
             </h1>
             {date ? (
                 <div >
@@ -127,7 +145,7 @@ const Book = () => {
                 rows={4} 
               />
             </div>
-                <button type="submit" className="submit-button">Book</button>
+                <button type="submit" className="submit-button">Update</button>
                 </form>
                 <button className="close-button mb-4" onClick={() => navigate('/schedule')}>Cancel</button>
                 </div>
@@ -137,7 +155,7 @@ const Book = () => {
             </div>
             {date ? (
                  <div id ="success" style={{display: "none"}}>
-                 <p className="text-2xl text-gray-800 mb-4">You've successfully booked an appointment for: </p>
+                 <p className="text-2xl text-gray-800 mb-4">You've successfully updated your appointment for: </p>
                  <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
                  <p className="text-2xl text-gray-800 mb-4">Here are the details of your appointment: </p>
                  <ul className="grid grid-cols-1 text-lg text-gray-800 mt-4 gap-y-2 max-w-3xl mx-auto">
@@ -190,4 +208,4 @@ const Book = () => {
     );
 };
 
-export default Book;
+export default EditBook;

@@ -13,6 +13,7 @@ import ErrorSection from './components/ErrorSection';
 import LoginPage from './components/LoginPage';
 import SchedulerSection from './components/SchedulerSection';
 import { useAuth } from "./lib/useAuth";
+import EditBook from './components/EditBook';
 
 function App() {
     const {user,loading} = useAuth();
@@ -35,6 +36,7 @@ function App() {
           <Route path = "/login" element = {<div><Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <LoginPage/></div>}/>
           <Route path = "/schedule" element = {<div> <Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <SchedulerSection/> </div>}/>
           <Route path = "/book/:timeId" element = {<div><Navbar navItems={[{name: "home", path: "/"},{name: "schedule", path: "/schedule"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/><Book/></div>}></Route>
+          <Route path = "/editbook/:timeId" element = {<div><Navbar navItems={[{name: "home", path: "/"},{name: "schedule", path: "/schedule"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/><EditBook/></div>}></Route>
           <Route path = "*" element = {<div><Navbar navItems={[{name: "home", path: "/"}, ...(user ? [{name: "logout", path: "/login"}] : [])]}/> <ErrorSection message="Oops! The page you're looking for does not exists." buttonText="Home" page="/"/></div>}/>
         </Routes>
     </div>
