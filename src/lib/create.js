@@ -4,7 +4,7 @@ import { db } from './firebase';
 
 export const addAvailability = async (date) => {
 
-    await addDoc(collection(db, "availability"), {
+    await addDoc(collection(db, "appointments"), {
         address: "",
         booked: false,
         city: "",

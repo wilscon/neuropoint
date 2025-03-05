@@ -4,7 +4,7 @@ import {sendEmail} from "./sendEmail";
 
 export const updateBookingStatus = async (id, address,booked, city,email, firstName, lastName,notes, state, zipCode) => {
     try {
-        const docRef = doc(db, "availability", id); // Get document reference
+        const docRef = doc(db, "appointments", id); // Get document reference
     
         await updateDoc(docRef, {
             address: address,

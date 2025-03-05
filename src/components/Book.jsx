@@ -56,30 +56,33 @@ const Book = () => {
         });
     
         if(await updateBookingStatus(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode)){
-            setFirstName("");
-            setLastName("");
-            setEmail("");
-            setAddress("");
-            setCity("");
-            setState("");
-            setZipCode("");
-            setNotes("");
-            alert("Appointment successfully booked!");
+            
             document.getElementById("book").style.display = "none";
             document.getElementById("success").style.display = "";
         }
       };
+
+      const edit = async () => {
+        alert("edit was clicked");
+     
+      /* const timeDate = await getTime(id);
+      
+       console.log("address: " + timeDate["address"]);
+    
+       setSelectedTime(time);*/
+    
+      }
     
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 pt-20">
-            <div id="book">
+        <div className="flex flex-col items-center  min-h-screen bg-gray-100 px-4 sm:px-6 pt-20">
+            <div id="book" className="w-full max-w-4xl min-h-[600px] p-8 mx-auto">
             <h1 className="text-center text-2xl font-bold text-gray-800 mb-4">
                 Book Appointment
             </h1>
             {date ? (
-                <div>
-                <p className="text-2xl font-bold text-gray-800 mb-4">
+                <div >
+                <p className=" text-center text-2xl font-bold text-gray-800 mb-4">
                     {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}
                 </p>
                 <form onSubmit={handleSubmit} className="form-container">
@@ -126,7 +129,7 @@ const Book = () => {
             </div>
                 <button type="submit" className="submit-button">Book</button>
                 </form>
-                <button className="close-button" onClick={() => navigate('/schedule')}>Cancel</button>
+                <button className="close-button mb-4" onClick={() => navigate('/schedule')}>Cancel</button>
                 </div>
             ) : (
                 <p>Loading...</p>
@@ -134,11 +137,52 @@ const Book = () => {
             </div>
             {date ? (
                  <div id ="success" style={{display: "none"}}>
-                 <p className="text-2xl font-bold text-gray-800 mb-4">You've successfully booked an appointment for {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
-                 <div className="flex justify-evenly w-full max-w-sm mx-auto mt-4">
+                 <p className="text-2xl text-gray-800 mb-4">You've successfully booked an appointment for: </p>
+                 <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
+                 <p className="text-2xl text-gray-800 mb-4">Here are the details of your appointment: </p>
+                 <ul className="grid grid-cols-1 text-lg text-gray-800 mt-4 gap-y-2 max-w-3xl mx-auto">
+                    <li className="grid grid-cols-[150px_1fr] gap-x-4">
+                        <span className="font-semibold">Name:</span>
+                        <strong>{firstName} {lastName}</strong>
+                    </li>
+
+                    <li className="grid grid-cols-[150px_1fr] gap-x-4">
+                        <span className="font-semibold">Address:</span>
+                        <strong>{address}, {city}, {state}, {zipCode}</strong>
+                    </li>
+
+                    {notes && (
+                        <li className="grid grid-cols-[150px_1fr] gap-x-4">
+                        <span className="font-semibold">Notes:</span>
+                        <strong>{notes}</strong>
+                        </li>
+                    )}
+                </ul>
+                 <p className="text-2xl text-center text-gray-800 mt-4">If this info looks incorrect tap edit:</p>
+                 <div className="text-center">
+                 <button
+                    onClick={edit}
+                    className="px-6 py-2 mt-4 bg-customTeal text-white font-semibold rounded-lg shadow-md 
+                        hover:bg-white hover:text-customTeal border-2 border-customTeal 
+                        transition duration-300 cursor-pointer"
+                    >
+                    Edit
+                </button>
+                 </div>
+                 
+                 {/*<div className="flex justify-evenly w-full max-w-sm mx-auto mt-4 mb-4">*
                     <Button text="Home" page="/" />
                     <Button text="Schedule" page="/schedule" />
-                </div>
+                </div>*/}
+                {/*<p className="text-2xl text-center text-gray-800 mb-4 mt-4 max-w-3xl mx-auto">If you have any questions regarding your appointment, please reach out to Zack at the following:</p>
+                <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-4">
+                    <p className="text-lg text-gray-800">
+                        📞 <a href="tel:3608536808" className="hover:underline"><strong>360-853-6808</strong></a>
+                    </p>
+                    <p className="text-lg text-gray-800">
+                        ✉️ <a href="mailto:bowman.dpt@gmail.com" className="hover:underline"><strong>bowman.dpt@gmail.com</strong></a>
+                    </p>
+                </div>*/}
                 </div>
             ): <p></p>}
            

@@ -6,11 +6,11 @@ export const userIsAdmin = async (uid) => {
     return (await getDoc(doc(db, 'admins', uid))).exists();
 } 
 
-const availabilityRef = collection(db, "availability");
+const availabilityRef = collection(db, "appointments");
 
 export const getAvailableDays = async(user)=> {
 
-    const availabilityRef = collection(db, "availability");
+    const availabilityRef = collection(db, "appointments");
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -47,7 +47,7 @@ export const getAvailableTimes = async (date, user) => {
     const endOfDay = Timestamp.fromDate(new Date(date.setHours(23, 59, 59, 999))); // 23:59:59
     
     
-    const availabilityRef = collection(db, "availability");
+    const availabilityRef = collection(db, "appointments");
 
     const queryDate = new Date(date);
     queryDate.setHours(12,0,0,0).toLocaleString("en-US", { timeZone: "America/Los_Angeles" }); // set time to noon;
@@ -86,7 +86,7 @@ export const getTime = async(id) => {
         return null;
     }
     try {
-        const docRef = doc(db, "availability", id);
+        const docRef = doc(db, "appointments", id);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
