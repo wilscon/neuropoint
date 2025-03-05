@@ -3,7 +3,7 @@ import {doc, deleteDoc} from 'firebase/firestore';
 
 export const deleteTimeDB = async (id) => {
 
-    await deleteDoc(doc(db, "availability", id));
+    await deleteDoc(doc(db, "appointments", id));
 
 
 }
