@@ -13,7 +13,7 @@ app.use(express.json());
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.post("/send-email", async (req, res) => {
+app.post("/appointment-booked", async (req, res) => {
   try {
     await sendgrid.send({
       to: "connor.wilson48@gmail.com",
@@ -27,7 +27,7 @@ app.post("/send-email", async (req, res) => {
             "City: " + req.body.city + '\n' +
             "State: " + req.body.state + '\n' +
             "Zip Code: " + req.body.zipCode + '\n' +
-            "Notes: " + req.body.notes + '\n'
+            "Notes: " + req.body.notes + '\n',
     });
     res.json({ success: true });
   } catch (error) {
@@ -35,6 +35,7 @@ app.post("/send-email", async (req, res) => {
     res.status(500).json({ error: error.response.body });
   }
 });
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));

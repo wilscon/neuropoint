@@ -76,7 +76,7 @@ const Book = () => {
 
     return (
         <div className="flex flex-col items-center  min-h-screen bg-gray-100 px-4 sm:px-6 pt-20">
-            <div id="book" className="w-full max-w-4xl min-h-[600px] p-8 mx-auto">
+            <div id="book" className="w-full max-w-2xl min-h-[600px] p-8 mx-auto">
             <h1 className="text-center text-2xl font-bold text-gray-800 mb-4">
                 Book Appointment
             </h1>
@@ -86,40 +86,40 @@ const Book = () => {
                     {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}
                 </p>
                 <form onSubmit={handleSubmit} className="form-container">
-                <div className="form-group">
-                    <label>First Name:</label>
+                <div className="form-group flex-col">
+                    <label className="book-appt-label">First Name:</label>
                     <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                    <label>Last Name:</label>
+                    <label className="book-appt-label">Last Name:</label>
                     <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                    <label>Email:</label>
+                    <label className="book-appt-label">Email:</label>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
                 <div className="form-group">
-              <label>Address:</label>
+              <label className="book-appt-label">Address:</label>
               <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} required />
             </div>
   
             <div className="form-group">
-              <label>City:</label>
+              <label className="book-appt-label">City:</label>
               <input type="text" value={city} onChange={(e) => setCity(e.target.value)} required />
             </div>
   
             <div className="form-group">
-              <label>State:</label>
+              <label className="book-appt-label">State:</label>
               <input type="text" value={state} onChange={(e) => setState(e.target.value)} required />
             </div>
   
             <div className="form-group">
-              <label>Zip Code:</label>
+              <label className="book-appt-label">Zip Code:</label>
               <input type="text" value={zipCode} onChange={(e) => setZipCode(e.target.value)} required />
             </div>
   
             <div className="form-group">
-              <label>Notes:</label>
+              <label className="book-appt-label">Notes:</label>
               <textarea 
                 className="large-textArea" 
                 value={notes} 
