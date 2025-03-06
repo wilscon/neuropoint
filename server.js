@@ -28,6 +28,18 @@ app.post("/appointment-booked", async (req, res) => {
             "State: " + req.body.state + '\n' +
             "Zip Code: " + req.body.zipCode + '\n' +
             "Notes: " + req.body.notes + '\n',
+      html: `<a href="https://neuro-point.com" 
+                 target="_blank" 
+                 style="
+                   display: inline-block;
+                   font-size: 16px;
+                   color: #ffffff;
+                   text-decoration: none;
+                   background-color: #007BFF;
+                   padding: 12px 24px;
+                   border-radius: 5px;
+                 "> click me </a>`
+          
     });
     res.json({ success: true });
   } catch (error) {
@@ -36,6 +48,37 @@ app.post("/appointment-booked", async (req, res) => {
   }
 });
 
+
+app.post("/appointmentBookedUser", async(req, res) =>{
+  try{
+    await sendgrid.send({
+      to: req.body.email,
+      from: "no-reply@connor-wilson.com",
+      subject: "Neuropoint Appointment Booked",
+      html: `<a href="https://neuro-point.com" 
+                 target="_blank" 
+                 style="
+                   display: inline-block;
+                   font-size: 16px;
+                   color: #ffffff;
+                   text-decoration: none;
+                   background-color: red;
+                   padding: 12px 24px;
+                   border-radius: 5px;
+                 "> Cancel Appointment </a>`
+      
+    
+    });
+    res.json({ success: true });
+  }
+  catch{
+
+
+  }
+
+
+
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));

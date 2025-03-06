@@ -1,6 +1,6 @@
 import { collection, getDocs, doc, getDoc, query, where, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
-import {sendEmail} from "./sendEmail";
+import {sendEmail, sendEmailToUser} from "./sendEmail";
 
 export const updateBookingStatus = async (id, address,booked, city,email, firstName, lastName,notes, state, zipCode) => {
     try {
@@ -18,11 +18,9 @@ export const updateBookingStatus = async (id, address,booked, city,email, firstN
             zipCode: zipCode,
         });
     
-            
+        await sendEmailToUser(firstName, lastName, email, address, city, state, zipCode, notes);
+        //await sendEmail(firstName, lastName, email, address, city, state, zipCode, notes);
         
-        await sendEmail(firstName, lastName, email, address, city, state, zipCode, notes);
-         
-
         return true;
       
     } catch (error) {
