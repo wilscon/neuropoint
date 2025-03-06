@@ -4,9 +4,10 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 export const sendEmail = async (firstName, lastName, email, address, city, state, zipCode, notes) => {
 
+    const route =  "/appointment-booked";
     console.log("API URL: " + API_BASE_URL)
     try{
-            const response = await axios.post(`${API_BASE_URL}/send-email`, 
+            const response = await axios.post(`${API_BASE_URL}` + route, 
             { 
                 firstName: firstName,
                 lastName: lastName,
