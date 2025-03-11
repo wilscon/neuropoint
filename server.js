@@ -17,7 +17,7 @@ app.post("/appointment-booked", async (req, res) => {
   try {
     await sendgrid.send({
       to: "connor.wilson48@gmail.com",
-      from: "no-reply@connor-wilson.com",
+      from: "appointments@connor-wilson.com",
       subject: "Appointment Booked",
       text: "Appointment Booked for: " + '\n' +
             "First Name: " + req.body.firstName + '\n' + 
@@ -53,9 +53,9 @@ app.post("/appointmentBookedUser", async(req, res) =>{
   try{
     await sendgrid.send({
       to: req.body.email,
-      from: "no-reply@connor-wilson.com",
+      from: "appointments@connor-wilson.com",
       subject: "Neuropoint Appointment Booked",
-      html: `<a href="https://neuro-point.com" 
+      html: `<a href="http://localhost:5000/cancel/${req.body.id}" 
                  target="_blank" 
                  style="
                    display: inline-block;
@@ -71,14 +71,33 @@ app.post("/appointmentBookedUser", async(req, res) =>{
     });
     res.json({ success: true });
   }
-  catch{
+  catch(error){
+    console.log(error);
+    res.status(500).json({ error: error.response.body });
+  }
 
+});
+
+app.post("/appointmentCanceled", async (req, res) => {
+
+  try{
+    await sendgrid.send({
+      to: "connor.wilson48@gmail.com",
+      from: "appointments@connor-wilson.com",
+      subject: "Neuropoint Appointment Canceled",
+      text: "Appointment Canceled"
+    
+    });
+
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({ error: error.response.body });
 
   }
 
-
-
 });
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));

@@ -24,7 +24,7 @@ export const sendEmail = async (firstName, lastName, email, address, city, state
         }
 }
 
-export const sendEmailToUser = async (firstName, lastName, email, address, city, state, zipCode, notes) => {
+export const sendEmailToUser = async (firstName, lastName, email, address, city, state, zipCode, notes,id) => {
     const route = "/appointmentBookedUser";
     console.log("API URL: " + API_BASE_URL+route)
     try{
@@ -38,11 +38,27 @@ export const sendEmailToUser = async (firstName, lastName, email, address, city,
             state: state,
             zipCode: zipCode,
             notes: notes,
+            id: id,
         });
     }
     catch(error){
             console.log("Error sending email: ", error.response ? error.response.data : error);
     }
 
+
+}
+
+export const sendDeleteEmail = async () => {
+
+    const route = "/appointmentCanceled";
+    console.log("API URL: " + API_BASE_URL+route)
+    try{
+        const response = await axios.post(`${API_BASE_URL}` + route, 
+        { 
+        });
+    }
+    catch(error){
+        console.log("Error sending email: ", error.response ? error.response.data : error);
+    }
 
 }

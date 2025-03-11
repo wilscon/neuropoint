@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { getTime } from "../lib/reads"; // Import the function
 import { useNavigate, useParams } from "react-router-dom";
+import { deleteAppointment } from "../lib/delete";
+import { sendDeleteEmail } from "../lib/sendEmail";
 
 export const Delete = () => {
     const { timeId } = useParams();
@@ -16,6 +18,8 @@ export const Delete = () => {
                     console.log("inside fetchDate");
                     const fetchedDate = await getTime(timeId);
                     setAppointment(fetchedDate);
+                    deleteAppointment(timeId);
+                    sendDeleteEmail();
                     
                 } catch (error) {
                     console.error("Error fetching date:", error);
@@ -27,7 +31,7 @@ export const Delete = () => {
 
     return (
         <div className="flex flex-col items-center h-screen bg-gray-100 px-4 sm:px-6 pt-20 mb-4">
-            <h1 className="text-center text-2xl font-bold text-gray-800 mb-4">Appointment Cancelled</h1>
+            <h1 className="text-center text-2xl font-bold text-gray-800 mb-4">Appointment Canceled</h1>
             {appointment ? 
             (
                 <div>

@@ -2,7 +2,7 @@
 import React, { useState,useEffect } from 'react';
 import { getAvailableDays, getAvailableTimes, getTime} from "../lib/reads";
 import {addAvailability} from "../lib/create";
-import {deleteTimeDB} from "../lib/delete";
+import {deleteAppointment} from "../lib/delete";
 import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -103,7 +103,7 @@ const CalendarSection = () => {
 
   const deleteTime = async (id) => {
 
-    deleteTimeDB(id);
+    deleteAppointment(id);
     const dates = await getAvailableDays(user); // Fetch from Firestore
     setAvailableDates(dates); // Set state with available dates
     const times = await getAvailableTimes(selectedDate, user);
