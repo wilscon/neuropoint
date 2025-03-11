@@ -73,7 +73,18 @@ app.post("/appointmentBookedUser", async(req, res) =>{
                    background-color: red;
                    padding: 12px 24px;
                    border-radius: 5px;
-                 "> Cancel Appointment </a>`
+                 "> Cancel Appointment </a>
+      <a href="http://localhost:5000/editbook/${req.body.id}" 
+                 target="_blank" 
+                 style="
+                   display: inline-block;
+                   font-size: 16px;
+                   color: #ffffff;
+                   text-decoration: none;
+                   background-color: #00888E;
+                   padding: 12px 24px;
+                   border-radius: 5px;
+                 ">Edit Details</a>`
       
     
     });
