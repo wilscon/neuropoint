@@ -104,7 +104,25 @@ app.post("/appointmentCanceled", async (req, res) => {
       to: "connor.wilson48@gmail.com",
       from: "appointments@connor-wilson.com",
       subject: "Neuropoint Appointment Canceled",
-      text: "Appointment Canceled"
+      html: `<p>Appointment Canceled on <strong>${req.body.day}</strong> at <strong>${req.body.time}</p>
+            <p>Appointment Details:<p>  
+            <p>Location: ${req.body.location}</p>
+            <p>First Name: ${req.body.firstName}</p>
+            <p>Last Name: ${req.body.lastName}</p>
+            <p>Email: ${req.body.email}</p>
+            <p>Notes: ${req.body.notes}</p>
+            <a href="http://localhost:5000/schedule" 
+                 target="_blank" 
+                 style="
+                   display: inline-block;
+                   font-size: 16px;
+                   color: #ffffff;
+                   text-decoration: none;
+                   background-color: #00888E;
+                   padding: 12px 24px;
+                   border-radius: 5px;
+                 ">View Schedule</a>
+            `,
     
     });
 
