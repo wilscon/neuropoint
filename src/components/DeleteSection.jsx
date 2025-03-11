@@ -18,8 +18,16 @@ export const Delete = () => {
                     console.log("inside fetchDate");
                     const fetchedDate = await getTime(timeId);
                     setAppointment(fetchedDate);
+                    const day = fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"});
+                    const time = fetchedDate["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true});
+                    const location = fetchedDate['address'] + " " + fetchedDate['city'] + ", " + fetchedDate['state'] + ", " + fetchedDate['zipCode']; 
+                    const firstName = fetchedDate['firstName'];
+                    const lastName = fetchedDate['lastName'];
+                    const email = fetchedDate['email'];
+                    const notes = fetchedDate['notes'];
+                    sendDeleteEmail(day, time, location, firstName, lastName, email, notes);
                     deleteAppointment(timeId);
-                    sendDeleteEmail();
+                    
                     
                 } catch (error) {
                     console.error("Error fetching date:", error);
