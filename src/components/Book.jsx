@@ -5,12 +5,13 @@ import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 import { updateBookingStatus } from '../lib/update';
 import Button from  './Button'; 
+import { app } from "../lib/firebase";
 
 
 const Book = () => {
     const navigate = useNavigate();
     const { timeId } = useParams();
-    const [date, setDate] = useState(null);
+    const [appointment, setAppointment] = useState(null);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -19,13 +20,20 @@ const Book = () => {
     const [state, setState] = useState("");
     const [zipCode, setZipCode] = useState("");
     const [notes, setNotes] = useState("");
+    const [day,setDay] = useState("");
+    const [time, setTime] = useState("");
 
     useEffect(() => {
         const fetchDate = async () => {
             try {
                 console.log("Fetching data for ID:", timeId);
                 const fetchedDate = await getTime(timeId);
-                setDate(fetchedDate);
+                setAppointment(fetchedDate);
+                //console.log("time: " + fetchedDate["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}));
+                //console.log("day: " + fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
+              
+                setDay(fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
+                setTime(fetchedDate["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}));
             } catch (error) {
                 console.error("Error fetching date:", error);
             }
@@ -35,12 +43,12 @@ const Book = () => {
 
     // Log when `date` updates
     useEffect(() => {
-        if (date) {
-            console.log("Updated Date Object:", date);
-            console.log("Booked:", date["booked"]);
-            console.log("Time: ", date["time"]);
+        if (appointment) {
+            console.log("Updated Date Object:", appointment);
+            console.log("Booked:", appointment["booked"]);
+            console.log("Time: ", appointment["time"]);
         }
-    }, [date]); // Runs when date updates
+    }, [appointment]); // Runs when date updates
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,7 +63,7 @@ const Book = () => {
           notes,
         });
     
-        if(await updateBookingStatus(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode)){
+        if(await updateBookingStatus(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode, day, time)){
             
             document.getElementById("book").style.display = "none";
             document.getElementById("success").style.display = "";
@@ -80,10 +88,10 @@ const Book = () => {
             <h1 className="text-center text-2xl font-bold text-gray-800 mb-4">
                 Book Appointment
             </h1>
-            {date ? (
+            {appointment? (
                 <div >
                 <p className=" text-center text-2xl font-bold text-gray-800 mb-4">
-                    {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}
+                    {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} {appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}
                 </p>
                 <form onSubmit={handleSubmit} className="form-container">
                 <div className="form-group flex-col">
@@ -135,10 +143,10 @@ const Book = () => {
                 <p>Loading...</p>
             )}  
             </div>
-            {date ? (
+            {appointment ? (
                  <div id ="success" style={{display: "none"}}>
                  <p className="text-2xl text-gray-800 mb-4">You've successfully booked an appointment for: </p>
-                 <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
+                 <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
                  <p className="text-2xl text-gray-800 mb-4">Here are the details of your appointment: </p>
                  <ul className="grid grid-cols-1 text-lg text-gray-800 mt-4 gap-y-2 max-w-3xl mx-auto">
                     <li className="grid grid-cols-[150px_1fr] gap-x-4">

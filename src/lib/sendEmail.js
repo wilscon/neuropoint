@@ -24,7 +24,7 @@ export const sendEmail = async (firstName, lastName, email, address, city, state
         }
 }
 
-export const sendEmailToUser = async (firstName, lastName, email, address, city, state, zipCode, notes,id) => {
+export const sendEmailToUser = async (firstName, lastName, email, address, city, state, zipCode, notes,id, day, time) => {
     const route = "/appointmentBookedUser";
     console.log("API URL: " + API_BASE_URL+route)
     try{
@@ -39,6 +39,8 @@ export const sendEmailToUser = async (firstName, lastName, email, address, city,
             zipCode: zipCode,
             notes: notes,
             id: id,
+            day: day,
+            time: time,
         });
     }
     catch(error){
