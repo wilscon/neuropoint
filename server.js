@@ -55,7 +55,15 @@ app.post("/appointmentBookedUser", async(req, res) =>{
       to: req.body.email,
       from: "appointments@connor-wilson.com",
       subject: "Neuropoint Appointment Booked",
-      html: `<a href="http://localhost:5000/cancel/${req.body.id}" 
+      html: `<p>Appointment Booked with Neuropoint</p>
+      <p>Appointment Details: </p>
+      <p>Date: <strong>${req.body.day}</strong></p>
+      <p>Time: <strong>${req.body.time}</strong></p>
+      <p> Location: ${req.body.address} ${req.body.city}, ${req.body.state}, ${req.body.zipCode} </p>
+      <p> First Name: ${req.body.firstName} </p>
+      <p> Last Name: ${req.body.lastName} </p>
+      <p> Notes: ${req.body.notes} </p>
+      <a href="http://localhost:5000/cancel/${req.body.id}" 
                  target="_blank" 
                  style="
                    display: inline-block;
