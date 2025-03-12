@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getTime } from "../lib/reads"; // Import the function
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
-import { updateBookingStatus } from '../lib/update';
+import { updateAppointment } from '../lib/update';
 import Button from  './Button'; 
 import { app } from "../lib/firebase";
 
@@ -72,7 +72,7 @@ const EditBook = () => {
           notes,
         });
     
-        if(await updateBookingStatus(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode)){
+        if(await updateAppointment(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode)){
             
             document.getElementById("book").style.display = "none";
             document.getElementById("success").style.display = "";

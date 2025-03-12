@@ -9,7 +9,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import './CalendarStyles.css'; // Import custom styles
-import { updateBookingStatus } from '../lib/update';
 import { useAuth } from "../lib/useAuth";
 import { add } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
