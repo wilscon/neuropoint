@@ -26,6 +26,8 @@ app.post("/appointmentBooked", async (req, res) => {
       <p> Location: ${req.body.address} ${req.body.city}, ${req.body.state}, ${req.body.zipCode} </p>
       <p> First Name: ${req.body.firstName} </p>
       <p> Last Name: ${req.body.lastName} </p>
+      <p> Email: ${req.body.email} </p>
+      <p> Phone Number: ${req.body.phoneNumber}</p>
       <p> Notes: ${req.body.notes} </p>
       <a href="http://localhost:5000/editbook/${req.body.id}" 
                  target="_blank" 
@@ -72,6 +74,7 @@ app.post("/appointmentBookedUser", async(req, res) =>{
       <p> Location: ${req.body.address} ${req.body.city}, ${req.body.state}, ${req.body.zipCode} </p>
       <p> First Name: ${req.body.firstName} </p>
       <p> Last Name: ${req.body.lastName} </p>
+      <p> Phone Number: ${req.body.phoneNumber} </p>
       <p> Notes: ${req.body.notes} </p>
       <a href="http://localhost:5000/cancel/${req.body.id}" 
                  target="_blank" 
@@ -120,6 +123,7 @@ app.post("/appointmentCanceled", async (req, res) => {
             <p>First Name: ${req.body.firstName}</p>
             <p>Last Name: ${req.body.lastName}</p>
             <p>Email: ${req.body.email}</p>
+            <p>Phone Number: ${req.body.phoneNumber}</p>
             <p>Notes: ${req.body.notes}</p>
             <a href="http://localhost:5000/schedule" 
                  target="_blank" 

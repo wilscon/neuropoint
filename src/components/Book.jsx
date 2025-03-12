@@ -16,6 +16,7 @@ const Book = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -30,9 +31,6 @@ const Book = () => {
                 console.log("Fetching data for ID:", timeId);
                 const fetchedDate = await getTime(timeId);
                 setAppointment(fetchedDate);
-                //console.log("time: " + fetchedDate["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}));
-                //console.log("day: " + fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
-              
                 setDay(fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
                 setTime(fetchedDate["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}).replace(/^0/, ''));
             } catch (error) {
@@ -57,6 +55,7 @@ const Book = () => {
           firstName,
           lastName,
           email,
+          phoneNumber,
           address, 
           city,
           state,
@@ -64,12 +63,12 @@ const Book = () => {
           notes,
         });
     
-        if(await updateAppointment(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode)){
+        if(await updateAppointment(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode,phoneNumber)){
             
             document.getElementById("book").style.display = "none";
             document.getElementById("success").style.display = "";
-            await sendEmailToUser(firstName, lastName, email, address, city, state, zipCode, notes, timeId, day, time);
-            await sendEmail(firstName, lastName, email, address, city, state, zipCode, notes, timeId, day, time);
+            await sendEmailToUser(firstName, lastName, email, address, city, state, zipCode, notes, timeId, day, time, phoneNumber);
+            await sendEmail(firstName, lastName, email, address, city, state, zipCode, notes, timeId, day, time, phoneNumber);
         }
        
       };
@@ -109,6 +108,10 @@ const Book = () => {
                 <div className="form-group">
                     <label className="book-appt-label">Email:</label>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label className="book-appt-label">Phone Number:</label>
+                    <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
                 </div>
                 <div className="form-group">
               <label className="book-appt-label">Address:</label>
@@ -156,6 +159,16 @@ const Book = () => {
                     <li className="grid grid-cols-[150px_1fr] gap-x-4">
                         <span className="font-semibold">Name:</span>
                         <strong>{firstName} {lastName}</strong>
+                    </li>
+
+                    <li className="grid grid-cols-[150px_1fr] gap-x-4">
+                        <span className="font-semibold">Email:</span>
+                        <strong>{email}</strong>
+                    </li>
+
+                    <li className="grid grid-cols-[150px_1fr] gap-x-4">
+                        <span className="font-semibold">Phone Number:</span>
+                        <strong>{phoneNumber}</strong>
                     </li>
 
                     <li className="grid grid-cols-[150px_1fr] gap-x-4">

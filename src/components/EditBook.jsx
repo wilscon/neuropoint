@@ -22,6 +22,7 @@ const EditBook = () => {
     const [notes, setNotes] = useState("");
     const [time, setTime] = useState("");
     const [day, setDay]= useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     useEffect(() => {
         const fetchDate = async () => {
@@ -49,13 +50,14 @@ const EditBook = () => {
             setFirstName(appointment["firstName"]);
             setLastName(appointment["lastName"]);
             setEmail(appointment["email"]);
+            setPhoneNumber(appointment["phoneNumber"]);
             setAddress(appointment["address"]);
             setCity(appointment["city"]);
             setState(appointment["state"]);
             setZipCode(appointment["zipCode"]);
             setNotes(appointment["notes"]);
             setTime(appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}).replace(/^0/, ''));
-
+            setDay(appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
         }
     }, [appointment]); // Runs when date updates
 
@@ -65,6 +67,7 @@ const EditBook = () => {
           firstName,
           lastName,
           email,
+          phoneNumber,
           address, 
           city,
           state,
@@ -72,7 +75,7 @@ const EditBook = () => {
           notes,
         });
     
-        if(await updateAppointment(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode)){
+        if(await updateAppointment(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode, phoneNumber)){
             
             document.getElementById("book").style.display = "none";
             document.getElementById("success").style.display = "";
@@ -103,7 +106,7 @@ const EditBook = () => {
             {appointment ? (
                 <div >
                 <p className=" text-center text-2xl font-bold text-gray-800 mb-4">
-                    {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} {time}
+                    {day} {time}
                 </p>
                 <form onSubmit={handleSubmit} className="form-container">
                 <div className="form-group">
@@ -114,9 +117,14 @@ const EditBook = () => {
                     <label className="book-appt-label">Last Name:</label>
                     <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
                 </div>
+               
                 <div className="form-group">
                     <label className="book-appt-label">Email:</label>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label className="book-appt-label">Phone Number:</label>
+                    <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
                 </div>
                 <div className="form-group">
               <label className="book-appt-label">Address:</label>
@@ -158,7 +166,7 @@ const EditBook = () => {
             {appointment ? (
                  <div id ="success" style={{display: "none"}}>
                  <p className="text-2xl text-gray-800 mb-4">You've successfully updated your appointment for: </p>
-                 <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
+                 <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {time}</p>
                  <p className="text-2xl text-gray-800 mb-4">Here are the details of your appointment: </p>
                  <ul className="grid grid-cols-1 text-lg text-gray-800 mt-4 gap-y-2 max-w-3xl mx-auto">
                     <li className="grid grid-cols-[150px_1fr] gap-x-4">
@@ -167,9 +175,20 @@ const EditBook = () => {
                     </li>
 
                     <li className="grid grid-cols-[150px_1fr] gap-x-4">
+                        <span className="font-semibold">Email:</span>
+                        <strong>{email}</strong>
+                    </li>
+
+                    <li className="grid grid-cols-[150px_1fr] gap-x-4">
+                        <span className="font-semibold">Phone Number:</span>
+                        <strong>{phoneNumber}</strong>
+                    </li>
+
+                    <li className="grid grid-cols-[150px_1fr] gap-x-4">
                         <span className="font-semibold">Address:</span>
                         <strong>{address}, {city}, {state}, {zipCode}</strong>
                     </li>
+
 
                     {notes && (
                         <li className="grid grid-cols-[150px_1fr] gap-x-4">
