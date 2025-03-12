@@ -5,12 +5,13 @@ import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
 import { updateBookingStatus } from '../lib/update';
 import Button from  './Button'; 
+import { app } from "../lib/firebase";
 
 
 const EditBook = () => {
     const navigate = useNavigate();
     const { timeId } = useParams();
-    const [date, setDate] = useState(null);
+    const [appointment, setAppointment] = useState(null);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -20,6 +21,7 @@ const EditBook = () => {
     const [zipCode, setZipCode] = useState("");
     const [notes, setNotes] = useState("");
     const [time, setTime] = useState("");
+    const [day, setDay]= useState("");
 
     useEffect(() => {
         const fetchDate = async () => {
@@ -27,7 +29,7 @@ const EditBook = () => {
                 console.log("Fetching data for ID:", timeId);
                 console.log("inside fetchDate");
                 const fetchedDate = await getTime(timeId);
-                setDate(fetchedDate);
+                setAppointment(fetchedDate);
                 //console.log("firstName: ", fetchedDate["firstName"]);
                 //setFirstName(fetchedDate["firstName"]);
             } catch (error) {
@@ -39,23 +41,23 @@ const EditBook = () => {
 
     // Log when `date` updates
     useEffect(() => {
-        if (date) {
-            console.log("Updated Date Object:", date);
-            console.log("Booked:", date["booked"]);
-            console.log("Time: ", date["time"]);
-            console.log("firstName: ", date["firstName"]);
-            setFirstName(date["firstName"]);
-            setLastName(date["lastName"]);
-            setEmail(date["email"]);
-            setAddress(date["address"]);
-            setCity(date["city"]);
-            setState(date["state"]);
-            setZipCode(date["zipCode"]);
-            setNotes(date["notes"]);
-            setTime(date["time"]);
+        if (appointment) {
+            console.log("Updated Date Object:", appointment);
+            console.log("Booked:", appointment["booked"]);
+            console.log("Time: ", appointment["time"]);
+            console.log("firstName: ", appointment["firstName"]);
+            setFirstName(appointment["firstName"]);
+            setLastName(appointment["lastName"]);
+            setEmail(appointment["email"]);
+            setAddress(appointment["address"]);
+            setCity(appointment["city"]);
+            setState(appointment["state"]);
+            setZipCode(appointment["zipCode"]);
+            setNotes(appointment["notes"]);
+            setTime(appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}).replace(/^0/, ''));
 
         }
-    }, [date]); // Runs when date updates
+    }, [appointment]); // Runs when date updates
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -98,10 +100,10 @@ const EditBook = () => {
             <h1 className="text-center text-2xl font-bold text-gray-800 mb-4">
                 Edit Appointment
             </h1>
-            {date ? (
+            {appointment ? (
                 <div >
                 <p className=" text-center text-2xl font-bold text-gray-800 mb-4">
-                    {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}
+                    {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} {time}
                 </p>
                 <form onSubmit={handleSubmit} className="form-container">
                 <div className="form-group">
@@ -153,10 +155,10 @@ const EditBook = () => {
                 <p>Loading...</p>
             )}  
             </div>
-            {date ? (
+            {appointment ? (
                  <div id ="success" style={{display: "none"}}>
                  <p className="text-2xl text-gray-800 mb-4">You've successfully updated your appointment for: </p>
-                 <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {date["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {date["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
+                 <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
                  <p className="text-2xl text-gray-800 mb-4">Here are the details of your appointment: </p>
                  <ul className="grid grid-cols-1 text-lg text-gray-800 mt-4 gap-y-2 max-w-3xl mx-auto">
                     <li className="grid grid-cols-[150px_1fr] gap-x-4">

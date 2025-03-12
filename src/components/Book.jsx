@@ -33,7 +33,7 @@ const Book = () => {
                 //console.log("day: " + fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
               
                 setDay(fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
-                setTime(fetchedDate["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}));
+                setTime(fetchedDate["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}).replace(/^0/, ''));
             } catch (error) {
                 console.error("Error fetching date:", error);
             }
@@ -91,7 +91,7 @@ const Book = () => {
             {appointment? (
                 <div >
                 <p className=" text-center text-2xl font-bold text-gray-800 mb-4">
-                    {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} {appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}
+                    {day} {time}
                 </p>
                 <form onSubmit={handleSubmit} className="form-container">
                 <div className="form-group flex-col">
@@ -146,7 +146,7 @@ const Book = () => {
             {appointment ? (
                  <div id ="success" style={{display: "none"}}>
                  <p className="text-2xl text-gray-800 mb-4">You've successfully booked an appointment for: </p>
-                 <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
+                 <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {day} at {time}</p>
                  <p className="text-2xl text-gray-800 mb-4">Here are the details of your appointment: </p>
                  <ul className="grid grid-cols-1 text-lg text-gray-800 mt-4 gap-y-2 max-w-3xl mx-auto">
                     <li className="grid grid-cols-[150px_1fr] gap-x-4">
