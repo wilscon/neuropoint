@@ -9,6 +9,13 @@ import { sendDeleteEmail } from "../lib/sendEmail";
 export const Delete = () => {
     const { timeId } = useParams();
      const [appointment, setAppointment] = useState(null);
+     const [day,setDay] = useState("");
+     const [time, setTime] = useState("");
+     const [location, setLocation] = useState("");
+     const [firstName, setFirstName] = useState("");
+     const [lastName, setLastName] = useState("");
+     const [email, setEmail] = useState("");
+     const [notes, setNotes] = useState("");
      const navigate = useNavigate();
 
      useEffect(() => {
@@ -18,14 +25,14 @@ export const Delete = () => {
                     console.log("inside fetchDate");
                     const fetchedDate = await getTime(timeId);
                     setAppointment(fetchedDate);
-                    const day = fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"});
-                    const time = fetchedDate["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true});
-                    const location = fetchedDate['address'] + " " + fetchedDate['city'] + ", " + fetchedDate['state'] + ", " + fetchedDate['zipCode']; 
-                    const firstName = fetchedDate['firstName'];
-                    const lastName = fetchedDate['lastName'];
-                    const email = fetchedDate['email'];
-                    const notes = fetchedDate['notes'];
-                    sendDeleteEmail(day, time, location, firstName, lastName, email, notes);
+                    setDay(fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
+                    setTime(fetchedDate["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}).replace(/^0/, ''));
+                    setLocation(fetchedDate['address'] + " " + fetchedDate['city'] + ", " + fetchedDate['state'] + ", " + fetchedDate['zipCode']); 
+                    setFirstName(fetchedDate['firstName']);
+                    setLastName(fetchedDate['lastName']);
+                    setEmail(fetchedDate['email']);
+                    setNotes(fetchedDate['notes']);
+                   
                     deleteAppointment(timeId);
                     
                     
@@ -34,9 +41,14 @@ export const Delete = () => {
                 }
             };
             fetchDate();
-        }, [timeId]); // Add timeId to dependency array
+        }, [timeId]); 
     
+        useEffect(() => {
+            if(day && time && location && firstName && lastName && email)
+                sendDeleteEmail(day, time, location, firstName, lastName, email, notes);
+        }, [day,time,location,firstName,lastName,email]);
 
+        
     return (
         <div className="flex flex-col items-center h-screen bg-gray-100 px-4 sm:px-6 pt-20 mb-4">
             <h1 className="text-center text-2xl font-bold text-gray-800 mb-4">Appointment Canceled</h1>
@@ -44,7 +56,7 @@ export const Delete = () => {
             (
                 <div>
                     <p>Your appointment on </p>
-                    <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"})} at {appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true})}</p>
+                    <p className="text-2xl text-center font-bold text-gray-800 mb-4"> {day} at {time}</p>
                     <p> has been canceled</p>
                     <p>Tap schedule to schedule a new appointment</p>
                     <button
