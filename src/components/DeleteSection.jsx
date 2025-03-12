@@ -4,6 +4,7 @@ import React from "react";
 import { getTime } from "../lib/reads"; // Import the function
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteAppointment } from "../lib/delete";
+import { updateAppointment } from "../lib/update";
 import { sendDeleteEmail } from "../lib/sendEmail";
 
 export const Delete = () => {
@@ -33,8 +34,8 @@ export const Delete = () => {
                     setEmail(fetchedDate['email']);
                     setNotes(fetchedDate['notes']);
                    
-                    deleteAppointment(timeId);
-                    
+                    //deleteAppointment(timeId);
+                    updateAppointment(timeId, "", false, "", "", "", "", "", "", "", "", "")
                     
                 } catch (error) {
                     console.error("Error fetching date:", error);
