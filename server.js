@@ -13,32 +13,42 @@ app.use(express.json());
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.post("/appointment-booked", async (req, res) => {
+app.post("/appointmentBooked", async (req, res) => {
   try {
     await sendgrid.send({
       to: "connor.wilson48@gmail.com",
       from: "appointments@connor-wilson.com",
       subject: "Appointment Booked",
-      text: "Appointment Booked for: " + '\n' +
-            "First Name: " + req.body.firstName + '\n' + 
-            "Last Name: " + req.body.lastName + '\n' + 
-            "Email: " + req.body.email + '\n' + 
-            "Address: " + req.body.address + '\n' + 
-            "City: " + req.body.city + '\n' +
-            "State: " + req.body.state + '\n' +
-            "Zip Code: " + req.body.zipCode + '\n' +
-            "Notes: " + req.body.notes + '\n',
-      html: `<a href="https://neuro-point.com" 
+      html: `<p>Appointment Booked with Neuropoint</p>
+      <p>Appointment Details: </p>
+      <p>Date: <strong>${req.body.day}</strong></p>
+      <p>Time: <strong>${req.body.time}</strong></p>
+      <p> Location: ${req.body.address} ${req.body.city}, ${req.body.state}, ${req.body.zipCode} </p>
+      <p> First Name: ${req.body.firstName} </p>
+      <p> Last Name: ${req.body.lastName} </p>
+      <p> Notes: ${req.body.notes} </p>
+      <a href="http://localhost:5000/editbook/${req.body.id}" 
                  target="_blank" 
                  style="
                    display: inline-block;
                    font-size: 16px;
                    color: #ffffff;
                    text-decoration: none;
-                   background-color: #007BFF;
+                   background-color: #00888E;
                    padding: 12px 24px;
                    border-radius: 5px;
-                 "> click me </a>`
+                 ">View Appointment</a>
+      <a href="http://localhost:5000/schedule" 
+                 target="_blank" 
+                 style="
+                   display: inline-block;
+                   font-size: 16px;
+                   color: #ffffff;
+                   text-decoration: none;
+                   background-color: #00888E;
+                   padding: 12px 24px;
+                   border-radius: 5px;
+                 ">View Schedule</a>`
           
     });
     res.json({ success: true });

@@ -2,9 +2,9 @@ import axios from "axios";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
-export const sendEmail = async (firstName, lastName, email, address, city, state, zipCode, notes) => {
+export const sendEmail = async (firstName, lastName, email, address, city, state, zipCode, notes,id,  day, time) => {
 
-    const route =  "/appointment-booked";
+    const route =  "/appointmentBooked";
     console.log("API URL: " + API_BASE_URL+route)
     try{
             const response = await axios.post(`${API_BASE_URL}` + route, 
@@ -17,6 +17,9 @@ export const sendEmail = async (firstName, lastName, email, address, city, state
                 state: state,
                 zipCode: zipCode,
                 notes: notes,
+                day: day,
+                time: time,
+                id: id,
             });
         }
         catch(error){

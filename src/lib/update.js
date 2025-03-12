@@ -19,7 +19,7 @@ export const updateBookingStatus = async (id, address,booked, city,email, firstN
         });
     
         await sendEmailToUser(firstName, lastName, email, address, city, state, zipCode, notes, id, day, time);
-        //await sendEmail(firstName, lastName, email, address, city, state, zipCode, notes);
+        await sendEmail(firstName, lastName, email, address, city, state, zipCode, notes,id, day, time);
         
         return true;
       
