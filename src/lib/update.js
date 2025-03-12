@@ -2,7 +2,7 @@ import { collection, getDocs, doc, getDoc, query, where, updateDoc } from 'fireb
 import { db } from './firebase';
 import {sendEmail, sendEmailToUser} from "./sendEmail";
 
-export const updateAppointment = async (id, address,booked, city,email, firstName, lastName,notes, state, zipCode) => {
+export const updateAppointment = async (id, address,booked, city,email, firstName, lastName,notes, state, zipCode, phoneNumber) => {
     try {
         const docRef = doc(db, "appointments", id); // Get document reference
     
@@ -16,6 +16,7 @@ export const updateAppointment = async (id, address,booked, city,email, firstNam
             notes: notes,
             state: state,
             zipCode: zipCode,
+            phoneNumber: phoneNumber,
         });
         
         return true;

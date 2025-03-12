@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
-export const sendEmail = async (firstName, lastName, email, address, city, state, zipCode, notes,id,  day, time) => {
+export const sendEmail = async (firstName, lastName, email, address, city, state, zipCode, notes,id,  day, time,phoneNumber) => {
 
     const route =  "/appointmentBooked";
     console.log("API URL: " + API_BASE_URL+route)
@@ -20,6 +20,7 @@ export const sendEmail = async (firstName, lastName, email, address, city, state
                 day: day,
                 time: time,
                 id: id,
+                phoneNumber: phoneNumber,
             });
         }
         catch(error){
@@ -27,7 +28,7 @@ export const sendEmail = async (firstName, lastName, email, address, city, state
         }
 }
 
-export const sendEmailToUser = async (firstName, lastName, email, address, city, state, zipCode, notes,id, day, time) => {
+export const sendEmailToUser = async (firstName, lastName, email, address, city, state, zipCode, notes,id, day, time, phoneNumber) => {
     const route = "/appointmentBookedUser";
     console.log("API URL: " + API_BASE_URL+route)
     try{
@@ -44,6 +45,7 @@ export const sendEmailToUser = async (firstName, lastName, email, address, city,
             id: id,
             day: day,
             time: time,
+            phoneNumber: phoneNumber,
         });
     }
     catch(error){
@@ -53,7 +55,7 @@ export const sendEmailToUser = async (firstName, lastName, email, address, city,
 
 }
 
-export const sendDeleteEmail = async (day, time, location, firstName, lastName, email, notes) => {
+export const sendDeleteEmail = async (day, time, location, firstName, lastName, email, notes, phoneNumber) => {
 
     const route = "/appointmentCanceled";
     console.log("API URL: " + API_BASE_URL+route)
@@ -67,6 +69,7 @@ export const sendDeleteEmail = async (day, time, location, firstName, lastName, 
             lastName: lastName,
             email: email,
             notes: notes,
+            phoneNumber: phoneNumber, 
         });
     }
     catch(error){

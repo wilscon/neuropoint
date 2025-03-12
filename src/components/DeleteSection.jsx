@@ -16,6 +16,7 @@ export const Delete = () => {
      const [firstName, setFirstName] = useState("");
      const [lastName, setLastName] = useState("");
      const [email, setEmail] = useState("");
+     const [phoneNumber, setPhoneNumber] = useState("");
      const [notes, setNotes] = useState("");
      const navigate = useNavigate();
 
@@ -32,10 +33,11 @@ export const Delete = () => {
                     setFirstName(fetchedDate['firstName']);
                     setLastName(fetchedDate['lastName']);
                     setEmail(fetchedDate['email']);
+                    setPhoneNumber(fetchedDate['phoneNumber'])
                     setNotes(fetchedDate['notes']);
                    
                     //deleteAppointment(timeId);
-                    updateAppointment(timeId, "", false, "", "", "", "", "", "", "", "", "")
+                    updateAppointment(timeId, "", false, "", "", "", "", "", "", "", "");
                     
                 } catch (error) {
                     console.error("Error fetching date:", error);
@@ -45,9 +47,9 @@ export const Delete = () => {
         }, [timeId]); 
     
         useEffect(() => {
-            if(day && time && location && firstName && lastName && email)
-                sendDeleteEmail(day, time, location, firstName, lastName, email, notes);
-        }, [day,time,location,firstName,lastName,email]);
+            if(day && time && location && firstName && lastName && email && phoneNumber)
+                sendDeleteEmail(day, time, location, firstName, lastName, email, notes, phoneNumber);
+        }, [day,time,location,firstName,lastName,email, phoneNumber]);
 
         
     return (
