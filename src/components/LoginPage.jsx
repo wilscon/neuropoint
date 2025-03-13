@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
     const {user,loading} = useAuth();
-    console.log(user, loading);
     const navigate = useNavigate();
 
     const handleClick = () => {

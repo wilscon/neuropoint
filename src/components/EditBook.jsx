@@ -27,12 +27,8 @@ const EditBook = () => {
     useEffect(() => {
         const fetchDate = async () => {
             try {
-                console.log("Fetching data for ID:", timeId);
-                console.log("inside fetchDate");
                 const fetchedDate = await getTime(timeId);
                 setAppointment(fetchedDate);
-                //console.log("firstName: ", fetchedDate["firstName"]);
-                //setFirstName(fetchedDate["firstName"]);
             } catch (error) {
                 console.error("Error fetching date:", error);
             }
@@ -43,10 +39,6 @@ const EditBook = () => {
     // Log when `date` updates
     useEffect(() => {
         if (appointment) {
-            console.log("Updated Date Object:", appointment);
-            console.log("Booked:", appointment["booked"]);
-            console.log("Time: ", appointment["time"]);
-            console.log("firstName: ", appointment["firstName"]);
             setFirstName(appointment["firstName"]);
             setLastName(appointment["lastName"]);
             setEmail(appointment["email"]);
@@ -63,17 +55,6 @@ const EditBook = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitted Data:", {
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          address, 
-          city,
-          state,
-          zipCode,
-          notes,
-        });
     
         if(await updateAppointment(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode, phoneNumber)){
             
@@ -85,15 +66,7 @@ const EditBook = () => {
       const edit = async (id) => {
         document.getElementById("success").style.display = "none";
         document.getElementById("book").style.display = "";
-        
-        //navigate(`/editbook/${id}`);
-     
-      /* const timeDate = await getTime(id);
-      
-       console.log("address: " + timeDate["address"]);
-    
-       setSelectedTime(time);*/
-    
+            
       }
     
 

@@ -72,13 +72,6 @@ const CalendarSection = () => {
 
   const handleTimeSlotClickEdit = async (id,time) => {
     navigate(`/editbook/${id}`)
- 
-  /* const timeDate = await getTime(id);
-  
-   console.log("address: " + timeDate["address"]);
-
-   setSelectedTime(time);*/
-
   }
 
   const addDate = async () => {

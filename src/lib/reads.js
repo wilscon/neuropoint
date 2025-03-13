@@ -32,7 +32,6 @@ export const getAvailableDays = async(user)=> {
         });
 
         const uniqueDays = [...new Set(days)];
-        console.log("Formatted Times:", uniqueDays);
         return uniqueDays;
       } catch (error) {
         console.error("❌ Error fetching times:", error);
@@ -74,8 +73,6 @@ export const getAvailableTimes = async (date, user) => {
       booked,
     }));
 
-
-  console.log(times); 
   return times;
 };
 
@@ -90,7 +87,6 @@ export const getTime = async(id) => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("Fetched Data:", docSnap.data());
             return docSnap.data(); // Returns the document data as an object
         } else {
             console.error("No such document!");

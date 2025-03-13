@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { getTime } from "../lib/reads"; // Import the function
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteAppointment } from "../lib/delete";
 import { updateAppointment } from "../lib/update";
 import { sendDeleteEmail } from "../lib/sendEmail";
 
@@ -23,8 +22,6 @@ export const Delete = () => {
      useEffect(() => {
             const fetchDate = async () => {
                 try {
-                    console.log("Fetching data for ID:", timeId);
-                    console.log("inside fetchDate");
                     const fetchedDate = await getTime(timeId);
                     setAppointment(fetchedDate);
                     setDay(fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
@@ -36,7 +33,6 @@ export const Delete = () => {
                     setPhoneNumber(fetchedDate['phoneNumber'])
                     setNotes(fetchedDate['notes']);
                    
-                    //deleteAppointment(timeId);
                     updateAppointment(timeId, "", false, "", "", "", "", "", "", "", "");
                     
                 } catch (error) {
@@ -74,7 +70,7 @@ export const Delete = () => {
                 
             
             ) 
-                : (<p>Date and Time</p>)}
+                : (<p>Loading...</p>)}
         </div>
     );
 };
