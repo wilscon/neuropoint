@@ -28,7 +28,6 @@ const Book = () => {
     useEffect(() => {
         const fetchDate = async () => {
             try {
-                console.log("Fetching data for ID:", timeId);
                 const fetchedDate = await getTime(timeId);
                 setAppointment(fetchedDate);
                 setDay(fetchedDate["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}));
@@ -43,26 +42,11 @@ const Book = () => {
     // Log when `date` updates
     useEffect(() => {
         if (appointment) {
-            console.log("Updated Date Object:", appointment);
-            console.log("Booked:", appointment["booked"]);
-            console.log("Time: ", appointment["time"]);
         }
     }, [appointment]); // Runs when date updates
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitted Data:", {
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          address, 
-          city,
-          state,
-          zipCode,
-          notes,
-        });
-    
         if(await updateAppointment(timeId, address, true, city, email, firstName, lastName, notes, state, zipCode,phoneNumber)){
             
             document.getElementById("book").style.display = "none";
@@ -75,13 +59,6 @@ const Book = () => {
 
       const edit = async (id) => {
         navigate(`/editbook/${id}`)
-     
-      /* const timeDate = await getTime(id);
-      
-       console.log("address: " + timeDate["address"]);
-    
-       setSelectedTime(time);*/
-    
       }
     
 
