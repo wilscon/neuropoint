@@ -10,8 +10,8 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import './CalendarStyles.css'; // Import custom styles
 import { useAuth } from "../lib/useAuth";
-import { add } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { sendDeleteEmail } from '../lib/sendEmail';
 
 const CalendarSection = () => {
   
@@ -94,6 +94,22 @@ const CalendarSection = () => {
   }
 
   const deleteTime = async (id) => {
+  
+    const appointment = await getTime(id);
+    if(appointment["booked"] === true)
+    {
+      sendDeleteEmail(
+        appointment["time"].toDate().toLocaleDateString("en-US",{month: "long", day: "numeric", year: "numeric"}),
+        appointment["time"].toDate().toLocaleTimeString("en-US",{hour: "2-digit", minute: "2-digit", hour12: true}).replace(/^0/, ''), 
+        appointment['address'] + " " + appointment['city'] + ", " + appointment['state'] + ", " + appointment['zipCode'], 
+        appointment["firstName"], 
+        appointment["lastName"],
+        appointment["email"],
+        appointment["notes"],
+        appointment["phoneNumber"],
+      );
+
+    }
 
     deleteAppointment(id);
     const dates = await getAvailableDays(user); // Fetch from Firestore
