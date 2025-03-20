@@ -13,6 +13,7 @@ import { useAuth } from "../lib/useAuth";
 import { useNavigate } from 'react-router-dom';
 import { sendDeleteEmail } from '../lib/sendEmail';
 
+
 const CalendarSection = () => {
   
   const defaultAvailableTimes = [];
@@ -20,6 +21,7 @@ const CalendarSection = () => {
   const initialDate = today;
   const initialSelectedDate = today;
   const navigate = useNavigate();
+  
 
   const {user,loading} = useAuth();
   const [availableDates, setAvailableDates] = useState([]); // 🔥 Dynamically set available dates

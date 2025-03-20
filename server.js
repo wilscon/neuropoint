@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 //app.use(cors());
 app.use(express.json());
 
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
+sendgrid.setApiKey(process.env.REACT_APP_SENDGRID_API_KEY);
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.post("/appointmentBooked", async (req, res) => {
@@ -155,4 +155,5 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+  console.log("Environment:", process.env.NODE_ENV);
 });
