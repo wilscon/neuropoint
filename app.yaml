@@ -11,3 +11,4 @@ handlers:
     upload: build/index.html
     http_headers:
       Cache-Control: "no-cache, no-store, must-revalidate"
+

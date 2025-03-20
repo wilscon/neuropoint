@@ -39,6 +39,9 @@
       "react-app/jest"
     ]
   },
+  "browser":{
+    "path": "path-browserfy"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
