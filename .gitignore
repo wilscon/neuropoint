@@ -30,4 +30,5 @@ src/lib/firebase.js
 .vscode/
 "sendgrid.env" 
 sendgrid.env 
+app.yaml
 
