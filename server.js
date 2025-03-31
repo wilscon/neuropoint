@@ -14,6 +14,11 @@ sendgrid.setApiKey(process.env.REACT_APP_SENDGRID_API_KEY);
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.post("/appointmentBooked", async (req, res) => {
+
+  const protocol = req.protocol;              
+  const host = req.get('host');              
+  const fullRootUrl = `${protocol}://${host}`;
+
   try {
     await sendgrid.send({
       to: "connor.wilson48@gmail.com",
@@ -29,7 +34,7 @@ app.post("/appointmentBooked", async (req, res) => {
       <p> Email: ${req.body.email} </p>
       <p> Phone Number: ${req.body.phoneNumber}</p>
       <p> Notes: ${req.body.notes} </p>
-      <a href="http://localhost:5000/editbook/${req.body.id}" 
+      <a href="${fullRootUrl}/editbook/${req.body.id}" 
                  target="_blank" 
                  style="
                    display: inline-block;
@@ -40,7 +45,7 @@ app.post("/appointmentBooked", async (req, res) => {
                    padding: 12px 24px;
                    border-radius: 5px;
                  ">View Appointment</a>
-      <a href="http://localhost:5000/schedule" 
+      <a href="${fullRootUrl}/schedule" 
                  target="_blank" 
                  style="
                    display: inline-block;
@@ -62,6 +67,11 @@ app.post("/appointmentBooked", async (req, res) => {
 
 
 app.post("/appointmentBookedUser", async(req, res) =>{
+  
+  const protocol = req.protocol;             
+  const host = req.get('host');              
+  const fullRootUrl = `${protocol}://${host}`; 
+
   try{
     await sendgrid.send({
       to: req.body.email,
@@ -76,7 +86,7 @@ app.post("/appointmentBookedUser", async(req, res) =>{
       <p> Last Name: ${req.body.lastName} </p>
       <p> Phone Number: ${req.body.phoneNumber} </p>
       <p> Notes: ${req.body.notes} </p>
-      <a href="http://localhost:5000/cancel/${req.body.id}" 
+      <a href="${fullRootUrl}/cancel/${req.body.id}" 
                  target="_blank" 
                  style="
                    display: inline-block;
@@ -87,7 +97,7 @@ app.post("/appointmentBookedUser", async(req, res) =>{
                    padding: 12px 24px;
                    border-radius: 5px;
                  "> Cancel Appointment </a>
-      <a href="http://localhost:5000/editbook/${req.body.id}" 
+      <a href="${fullRootUrl}/editbook/${req.body.id}" 
                  target="_blank" 
                  style="
                    display: inline-block;
@@ -112,6 +122,10 @@ app.post("/appointmentBookedUser", async(req, res) =>{
 
 app.post("/appointmentCanceled", async (req, res) => {
 
+  const protocol = req.protocol;             
+  const host = req.get('host');              
+  const fullRootUrl = `${protocol}://${host}`; 
+
   try{
     await sendgrid.send({
       to: "connor.wilson48@gmail.com",
@@ -125,7 +139,7 @@ app.post("/appointmentCanceled", async (req, res) => {
             <p>Email: ${req.body.email}</p>
             <p>Phone Number: ${req.body.phoneNumber}</p>
             <p>Notes: ${req.body.notes}</p>
-            <a href="http://localhost:5000/schedule" 
+            <a href="${fullRootUrl}/schedule" 
                  target="_blank" 
                  style="
                    display: inline-block;
