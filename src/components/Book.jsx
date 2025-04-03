@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getTime } from "../lib/reads"; // Import the function
 import 'react-calendar/dist/Calendar.css';
+import './BookStyles.css'; // Import custom styles
 import { useNavigate } from 'react-router-dom';
 import { updateAppointment } from '../lib/update';
 import {sendEmail, sendEmailToUser} from "../lib/sendEmail"
@@ -138,9 +139,9 @@ const Book = () => {
                         <strong>{firstName} {lastName}</strong>
                     </li>
 
-                    <li className="grid grid-cols-[150px_1fr] gap-x-4">
+                    <li className="grid grid-cols-[150px_1fr] gap-x-4 min-w-0">
                         <span className="font-semibold">Email:</span>
-                        <strong>{email}</strong>
+                        <strong className="break-all">{email}</strong>
                     </li>
 
                     <li className="grid grid-cols-[150px_1fr] gap-x-4">
