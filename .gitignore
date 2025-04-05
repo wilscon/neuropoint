@@ -31,4 +31,4 @@ src/lib/firebase.js
 "sendgrid.env" 
 sendgrid.env 
 app.yaml
-
+firebaseConfig.js
